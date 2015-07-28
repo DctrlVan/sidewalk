@@ -1,0 +1,13 @@
+body{
+	background-image:url("background.jpg");
+	color:red;
+}
+h1{
+	font-size:4em;
+}
+.colorPick{
+	height:45px;
+	width:20px;
+	height:45px;
+	float:left;
+}
