@@ -1,7 +1,7 @@
 cp = require("child_process")
 cre = (colors)->
 	replaceString = "colors=\\["
-	for k,v of colors
+	for v in colors
 		replaceString+= "\\("
 		i=0
 		for colourVal in v
@@ -25,10 +25,18 @@ editcolors = (file,colors)->
 	console.log re
 	cp.exec "cat python_clients/#{file} | sed s/colors=.*/#{re}/ > python_clients/out.py" , (a,b,c)->
 		runPythonFile("python_clients/out.py")
+createflash = (file,flashDoc)->
+	#colors regular expression
+	re = cre flashDoc.colorArray
+	console.log re
+	cp.exec """cat python_clients/#{file} | sed s/colors=.*/#{re}/ |	sed s/fps=.*/fps=#{flashDoc.Flash_Speed/40}/ | sed s/fill=.*/fill=#{flashDoc.Fill_Percent/100}/ > python_clients/out.py """ , (a,b,c)->
+		console.log "finished building out"
+		runPythonFile("python_clients/out.py")
+
 
 
 #colors=[[1,2,3],[4,5,6]]
 #editcolors "flash.py", colors
 #runPythonFile "flash.py"
 
-module.exports = {editcolors, runPythonFile}
+module.exports = {editcolors, runPythonFile, createflash}

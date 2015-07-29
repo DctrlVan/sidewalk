@@ -1,3 +1,5 @@
+ck = require 'coffeekup'
+
 picker = ->
   div class:"picker"
   button class:"pickcolor btn btn-default","Choose Color"
@@ -5,3 +7,6 @@ picker = ->
   button class:"create btn btn-default","Create"
   h2 "Chosen Colors:"
   div class:"colors"
+
+module.exports = ->
+  ck.render picker

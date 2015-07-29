@@ -5,6 +5,10 @@ body{
 h1{
 	background: black;
 }
+.colors{
+	min-height:45px;
+	float:left;
+}
 .colorPick{
 	height:45px;
 	width:20px;

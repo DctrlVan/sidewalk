@@ -15,7 +15,7 @@ def distort(c):
     mod[1] = max(c[1] + 123*d,0)
     d = random.random() - .5
     mod[2] = max(c[2] + 123*d,0)
-    modtuple = (mod[0],mod[1],mod[2])
+    modtuple = (mod[1],mod[0],mod[2])
     return modtuple
 
 def color(rgb):
@@ -26,12 +26,12 @@ def color(rgb):
            x.append (distort(rgb))
        else:
           x.append((0,0,0))
-       i = i +1 
+       i = i +1
 
 def colorSwitcher(colors,switch):
     color(colors[switch])
 
-switch = 0 
+switch = 0
 count = 0
 
 cap = len(colors)

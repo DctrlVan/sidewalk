@@ -3,7 +3,7 @@ express = require 'express'
 WebServer = express()
 
 bodyParser = require "body-parser"
-urlencodedParser = bodyParser.urlencoded({ extended: false })
+urlencodedParser = bodyParser.urlencoded({ extended: true })
 
 port=3456
 
@@ -18,23 +18,41 @@ WebServer.listen port, ->
   WebServer.get '/' , (req,res)->
     res.send index
 
+  WebServer.get '/getpicker' , (req,res)->
+    res.send colorpickerHtml
+
   WebServer.post '/create' ,urlencodedParser, (req,res)->
     console.log req.body
-    lights.editcolors "flash.py", req.body
+    lights.createflash "flash.py", req.body
     #create
 
-title="Sidewalk"
+
+###
+The menu module takes a json document and outputs
+the html of a menu
+###
+menu = require "./templates/menu.coffee"
 menuDoc =
+  _title:"Sidewalk"
   flashy:
     Color_Picker:'custom'
-    Epilepticity:'range'
-  auroray:
+    Flash_Speed:'range'
+    Fill_Percent:'range'
+  Lava_Lamp:
     Contemplation:'range'
     Insignificance:'range'
     Joy:'range'
+  _ranges:{}
+  _lists:{}
+menuHtml = menu menuDoc
 
-menu = require "./templates/menu.coffee"
-menuHtml = menu title, menuDoc
+picker = ->
+  div class:"picker"
+  div ".col-xs-12",->
+    button class:"clearcolor btn btn-default","Reset"
+  div class:"colors"
+colorpickerHtml = ck.render picker
+
 html = ->
   div class:"container",->
     link rel:"stylesheet",href:"bundle.css"
@@ -45,4 +63,4 @@ html = ->
     script src:"bundle.js"
 
 WebServer.use(express.static 'public')
-index = ck.render html, locals:{title,menuHtml}
+index = ck.render html, locals:{menuHtml}

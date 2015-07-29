@@ -20,43 +20,51 @@
 $ = require "jquery"
 ColorPicker = require "color-picker"
 picker = new ColorPicker()
-menu = require "./menu.coffee"
+menu = require "../templates/menuPublic/menu.coffee"
+#ColorpickerHtml = require("../templates/colorpicker.coffee")
 
-###
-#
-# This code starts the color picker,
-# attaches it to any picker class in the
-# DOM:
-###
+
 colors = []
 $(document).ready ->
   menu()
-  picker.el.appendTo '.picker'
+  $.get '/getpicker', (res)->
+    $(".Color_Picker").append (res)
+    picker.el.appendTo '.picker'
 
-  $(".pickcolor").on "click", ->
+  $(".menu").on "click", ".color-picker .main", (e)->
+    e.preventDefault()
     col = picker.color()
     x = picker.color()
     x = x.substring(4,x.length-1)
       .replace(/ /g,"")
       .split(',')
     colors.push x
-    console.log colors
-    $(".picker").append "<span class='colorPick'></span>"
+    $(".colors").append "<span class='colorPick'></span>"
     $("span:last").css "background", col
-  $(".clearcolor").on "click", ->
+
+  $(".menu").on "click",".clearcolor" ,(e)->
+    e.preventDefault()
     colors = []
     $(".colors").empty()
-  $(".create").on "click", ->
+
+  $(".menu").on "click", ".send", (e)->
+    e.preventDefault()
+    selection = $(".selected").text()
+    submitArray = $("form.#{selection}").serializeArray()
+    submitDoc = {}
+    for doc in submitArray
+      submitDoc[doc['name']] = doc['value']
     i = 0
-    colordoc = {}
-    console.log "sending colors: #{colors}"
-    i = 0
-    for x in colors
-      colordoc[i]=x
-      i++
+    #colorDoc = {}
+    #for x in colors
+    #  colorDoc[i]=x
+    #  i++
+    #console.log colorDoc
+    submitDoc["colorArray"] = colors
+    console.log submitDoc
     $.ajax
       type:'POST'
       url:'/create'
-      data: colordoc
+      data: submitDoc
       success: ->
         console.log "created"
