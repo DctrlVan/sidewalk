@@ -23,8 +23,8 @@ editcolors = (file,colors)->
 	#colors regular expression
 	re = cre colors
 	console.log re
-	cp.exec "cat python_clients/#{file} | sed s/colors=.*/#{re}/ > out.py" , (a,b,c)->
-		runPythonFile("out.py")
+	cp.exec "cat python_clients/#{file} | sed s/colors=.*/#{re}/ > python_clients/out.py" , (a,b,c)->
+		runPythonFile("python_clients/out.py")
 
 
 #colors=[[1,2,3],[4,5,6]]

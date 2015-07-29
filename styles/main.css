@@ -1,9 +1,9 @@
 body{
-	background-image:url("background.jpg");
 	color:red;
+	text-align: center;
 }
 h1{
-	font-size:4em;
+	background: black;
 }
 .colorPick{
 	height:45px;

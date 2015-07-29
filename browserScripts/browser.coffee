@@ -1,10 +1,4 @@
 ###
-#
-# This code starts the color picker,
-# attaches it to any picker class in the
-# DOM:
-###
-###
 # On click it pushes the picker value onto
 # the colors list,
 # then it creates a span below with
@@ -26,9 +20,17 @@
 $ = require "jquery"
 ColorPicker = require "color-picker"
 picker = new ColorPicker()
+menu = require "./menu.coffee"
 
+###
+#
+# This code starts the color picker,
+# attaches it to any picker class in the
+# DOM:
+###
 colors = []
 $(document).ready ->
+  menu()
   picker.el.appendTo '.picker'
 
   $(".pickcolor").on "click", ->
@@ -41,11 +43,9 @@ $(document).ready ->
     console.log colors
     $(".picker").append "<span class='colorPick'></span>"
     $("span:last").css "background", col
-
   $(".clearcolor").on "click", ->
     colors = []
     $(".colors").empty()
-
   $(".create").on "click", ->
     i = 0
     colordoc = {}

@@ -8,13 +8,11 @@ urlencodedParser = bodyParser.urlencoded({ extended: false })
 port=3456
 
 lights = require "./python_clients/editScripts.coffee"
-
 ###
 #Start a sidewalk light preview pane:
 execPreview = require("child_process").spawn
 preview = execPreview "./bin/gl_server -l python_clients/layouts/sidewalk.json"
 ###
-
 WebServer.listen port, ->
   console.log "listening at #{port}"
   WebServer.get '/' , (req,res)->
@@ -25,17 +23,26 @@ WebServer.listen port, ->
     lights.editcolors "flash.py", req.body
     #create
 
+title="Sidewalk"
+menuDoc =
+  flashy:
+    Color_Picker:'custom'
+    Epilepticity:'range'
+  auroray:
+    Contemplation:'range'
+    Insignificance:'range'
+    Joy:'range'
+
+menu = require "./templates/menu.coffee"
+menuHtml = menu title, menuDoc
 html = ->
   div class:"container",->
     link rel:"stylesheet",href:"bundle.css"
-    h1 "Choose Colors"
-    div class:"picker"
-    button class:"pickcolor btn btn-default","Choose Color"
-    button class:"clearcolor btn btn-default","Reset"
-    button class:"create btn btn-default","Create"
-    h2 "Chosen Colors:"
-    div class:"colors"
+    div class:"title", ->
+      h1 "DECENTRAL"
+      h1 "VANCOUVER"
+      text menuHtml
     script src:"bundle.js"
 
 WebServer.use(express.static 'public')
-index = ck.render html
+index = ck.render html, locals:{title,menuHtml}

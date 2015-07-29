@@ -4,7 +4,7 @@
   "description": "Link simple gui to run python opc code",
   "main": "index.coffee",
   "scripts": {
-    "compile": "browserify -t coffeeify -o public/bundle.js browser.coffee; gulp; coffee index.coffee"
+    "compile": "browserify -t coffeeify -o public/bundle.js browserScripts/browser.coffee; gulp; coffee index.coffee"
   },
   "author": "",
   "license": "ISC",
