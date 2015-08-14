@@ -7,56 +7,41 @@ urlencodedParser = bodyParser.urlencoded({ extended: true })
 
 port=3456
 
-lights = require "./python_clients/editScripts.coffee"
-###
-#Start a sidewalk light preview pane:
-execPreview = require("child_process").spawn
-preview = execPreview "./bin/gl_server -l python_clients/layouts/sidewalk.json"
-###
+shows = require "./opc_controllers/shows.coffee"
+
+lightshow = null
+
 WebServer.listen port, ->
   console.log "listening at #{port}"
   WebServer.get '/' , (req,res)->
-    res.send index
+    res.send indexHtml
 
-  WebServer.get '/getpicker' , (req,res)->
-    res.send colorpickerHtml
+  WebServer.post '/startshow', urlencodedParser, (req,res)->
+    if lightshow? then clearInterval lightshow
+    switch req.body.show
+      when "Rainbow Rows"
+        lightshow = shows.rainbowShow req.body.colorArray, .4, 1000
+      when "Rave Lights"
+        lightshow = shows.flashShow req.body.colorArray, .44, 600
+    res.send "dance party"
 
-  WebServer.post '/create' ,urlencodedParser, (req,res)->
-    console.log req.body
-    lights.createflash "flash.py", req.body
-    #create
 
-
-###
-The menu module takes a json document and outputs
-the html of a menu
-###
-menu = require "./templates/menu.coffee"
-menuDoc =
-  _title:"Color-Picker:"
-  'Custom-Dancing-Colors':
-    'Color_Picker':'custom'
-    'Flash_Speed':'range'
-    'Fill_Percent':'range'
-  _ranges:{}
-  _lists:{}
-menuHtml = menu menuDoc
-
-picker = ->
-  div class:"picker"
-  div ".col-xs-12",->
-    button class:"clearcolor btn btn-default","Reset"
-  div class:"colors"
-colorpickerHtml = ck.render picker
-
-html = ->
+indexTemplate = ->
   div class:"container",->
     link rel:"stylesheet",href:"bundle.css"
-    div class:"title", ->
-      h1 "DECENTRAL"
-      h1 "VANCOUVER"
-      text menuHtml
+    h1 "DECENTRAL"
+    h1 "VANCOUVER"
+    h1 "SIDEWALK CONTROLLER"
+    div class:'Color_Picker', ->
+        div class:"colors", ->
+          span class:'colorPick'
+        div class:"picker", ->
+          button class:"clearcolor btn btn-default btn-md","Reset"
+    div class:'submitButtons', ->
+      button class:'btn btn-primary btn-lg col-xs-6', "Rainbow Rows"
+      button class:'btn btn-primary btn-lg col-xs-6', "Rave Lights"
     script src:"bundle.js"
 
+indexHtml = ck.render indexTemplate
+
 WebServer.use(express.static 'public')
-index = ck.render html, locals:{menuHtml}

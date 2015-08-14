@@ -31,28 +31,23 @@ for (var width = WIDTH; width >= 0; width--) {
 
 // config options for user, defaults?
 var colors = [[240,50,50],[102,102,51],[204,0,204]]
-var fill = 50
-var speed = 50
+var fill = .3
+var speed = 5000
 
 
 function filler(done){
 	async.waterfall([
 		function(done){
-			mod = [0,0,0]
-			colors[0].forEach(function(color, index){
-				d = Math.random() - .5
-				mod[index] = parseInt(c + 123*d)
-				// mod[index] = (mod[index] > 255) ? 255 : 0;
-			})
-			done(null, mod)
+			mod = colors[2]
+      done(null, mod)
 		},
 		function(mod, done){
 			var y = 0
 			while(y < HEIGHT){
 				var x = 0
 				while (x < WIDTH){
-					if (Math.random()*100 < fill){
-						columns[x].setPixel(i, mod[0],mod[1],mod[2])
+					if (Math.random() < fill){
+						columns[x].setPixel(y, mod[0],mod[1],mod[2])
 						x++
 					}
 				}
@@ -71,4 +66,4 @@ function filler(done){
 		done], console.error)
 }
 
-setInterval(filler, 1000)
+setInterval(filler, speed)

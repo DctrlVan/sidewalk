@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^1.4.2",
     "body-parser": "^1.13.2",
     "bootstrap": "^3.3.5",
     "coffeeify": "^1.1.0",

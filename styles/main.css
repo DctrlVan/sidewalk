@@ -2,32 +2,46 @@ body{
 	color:black;
 	text-align: center;
 }
+
+.container{
+	background-color: black;
+}
+
 h1{
 	color:white;
 	padding: 15px 10px;
 	background: black
 }
-h1:first-child, h2 {
+
+h1:nth-child(odd) {
 	color: black;
 	text-shadow: 5px;
 	margin:0;
 	background: rgb(247, 164, 0);
-}
-.title{
-	background:black
 }
 
 .menu{
 	background:white
 }
 
+.Color_Picker{
+	margin-top: 50px;
+}
+
 .colors{
-	min-height:45px;
-	float:left;
+	float:right;
+	border-width:3px;
+	border-color: white;
 }
 .colorPick{
-	height:45px;
-	width:20px;
-	height:45px;
+	height:20px;
+	width:45px;
 	float:left;
+	clear:both;
+	border-width:2px;
+	border-color: black;
+}
+
+.clearcolor{
+float:left;
 }

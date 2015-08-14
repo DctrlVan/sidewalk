@@ -1,7 +1,7 @@
 Socket = require("net").Socket
 socket = new Socket()
 socket.setNoDelay()
-socket.connect 22000
+socket.connect 7890
 
 createOPCStream = require "opc"
 stream = createOPCStream()
@@ -47,7 +47,7 @@ filler = (color, fill)->
 		x = 0
 		while x < width
 			di = distort color
-			if Math.random()*100 < fill
+			if Math.random() < fill
 				columns[x].setPixel i, di[0],di[1],di[2]
 			x++
 		y++
@@ -66,9 +66,9 @@ while y < height
 	while x < width
 		di = distort color
 		if Math.random()*100 < fill
-			columns[x].setPixel i, di[0],di[1],di[2]
+			columns[x].setPixel y, di[0],di[1],di[2]
 		x++
 	y++
 
 
-setTimeout stream.writePixels(0, strand.buffer), 3000
+setInterval flash, 3000, colors, .2, 1
