@@ -23,13 +23,14 @@ picker = new ColorPicker()
 menu = require "../templates/menuPublic/menu.coffee"
 #ColorpickerHtml = require("../templates/colorpicker.coffee")
 
-
 colors = []
+
 $(document).ready ->
   menu()
   $.get '/getpicker', (res)->
     $(".Color_Picker").append (res)
     picker.el.appendTo '.picker'
+    picker.size($('.menu').width()*.75)
 
   $(".menu").on "click", ".color-picker .main", (e)->
     e.preventDefault()
@@ -55,11 +56,6 @@ $(document).ready ->
     for doc in submitArray
       submitDoc[doc['name']] = doc['value']
     i = 0
-    #colorDoc = {}
-    #for x in colors
-    #  colorDoc[i]=x
-    #  i++
-    #console.log colorDoc
     submitDoc["colorArray"] = colors
     console.log submitDoc
     $.ajax

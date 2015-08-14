@@ -1,10 +1,26 @@
 body{
-	color:red;
+	color:black;
 	text-align: center;
 }
 h1{
-	background: black;
+	color:white;
+	padding: 15px 10px;
+	background: black
 }
+h1:first-child, h2 {
+	color: black;
+	text-shadow: 5px;
+	margin:0;
+	background: rgb(247, 164, 0);
+}
+.title{
+	background:black
+}
+
+.menu{
+	background:white
+}
+
 .colors{
 	min-height:45px;
 	float:left;

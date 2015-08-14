@@ -33,15 +33,11 @@ the html of a menu
 ###
 menu = require "./templates/menu.coffee"
 menuDoc =
-  _title:"Sidewalk"
-  flashy:
-    Color_Picker:'custom'
-    Flash_Speed:'range'
-    Fill_Percent:'range'
-  Lava_Lamp:
-    Contemplation:'range'
-    Insignificance:'range'
-    Joy:'range'
+  _title:"Color-Picker:"
+  'Custom-Dancing-Colors':
+    'Color_Picker':'custom'
+    'Flash_Speed':'range'
+    'Fill_Percent':'range'
   _ranges:{}
   _lists:{}
 menuHtml = menu menuDoc

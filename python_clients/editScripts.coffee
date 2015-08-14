@@ -28,11 +28,12 @@ editcolors = (file,colors)->
 		runPythonFile("python_clients/out.py")
 createflash = (file,flashDoc)->
 	#colors regular expression
+	console.log flashDoc
 	if process?
 		process.kill()
 	re = cre flashDoc.colorArray
 	console.log re
-	process = cp.exec """cat python_clients/#{file} | sed s/colors=.*/#{re}/ |	sed s/fps=.*/fps=#{flashDoc.Flash_Speed/40}/ | sed s/fill=.*/fill=#{flashDoc.Fill_Percent/100}/ > python_clients/out.py """ , (a,b,c)->
+	process = cp.exec "cat python_clients/#{file} | sed s/colors=.*/#{re}/ |	sed s/fps=.*/fps=#{flashDoc.Flash_Speed/40}/ | sed s/fill=.*/fill=#{flashDoc.Fill_Percent/100}/ > python_clients/out.py " , (a,b,c)->
 		console.log "finished building out"
 		runPythonFile("python_clients/out.py")
 
