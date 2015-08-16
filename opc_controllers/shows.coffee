@@ -92,7 +92,7 @@ sinShow = (colors)->
 		ci = j%l
 		splitSinWave(colors[ci], position)
 		stream.writePixels(0, strand.buffer)
-		position = position + 2
+		position++
 		if position%50 == 0
 			j++
 	, 200

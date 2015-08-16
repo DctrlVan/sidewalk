@@ -18,7 +18,10 @@ WebServer.listen port, ->
 
   WebServer.post '/startshow', urlencodedParser, (req,res)->
     if lightshow? then clearInterval lightshow
+    if cycle? then clearInterval cycle
     console.log "New show request: ", req.body
+    if !req.body.colorArray?
+      req.body.colorArray = [[255,0,0],[0,255,0],[0,0,255]]
     switch req.body.show
       when "Rainbow Rows"
         lightshow = shows.rainbowShow req.body.colorArray, .4, 777
@@ -29,20 +32,18 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Cycle"
-        lightshow = shows.waveShow req.body.colorArray, 13, 55
-        setInterval ->
+        c = 0
+        cycle = setInterval ->
           clearInterval lightshow
-          lightshow = shows.rainbowShow req.body.colorArray, .4, 777
-          setTimeout ->
-            clearInterval lightshow
-            lightshow = shows.flashShow req.body.colorArray, .25, 77
-            setTimeout ->
-              clearInterval lightshow
+          switch c
+            when 0
+              lightshow = shows.rainbowShow req.body.colorArray, .4, 777
+            when 1
               lightshow = shows.waveShow req.body.colorArray, 13, 13
-            , 10000
-          , 10000
-        , 30000
-
+            when 2
+              lightshow = shows.flashShow req.body.colorArray, .25, 77
+          c++
+        , 20000
     res.send "dance party"
 
 indexTemplate = ->
@@ -57,10 +58,10 @@ indexTemplate = ->
         div class:"picker", ->
           button class:"clearcolor btn btn-default btn-md","Reset"
     div class:'submitButtons', ->
-      button class:'btn btn-primary btn-lg col-xs-6', "Rainbow Rows"
-      button class:'btn btn-primary btn-lg col-xs-6', "Rave Lights"
-      button class:'btn btn-primary btn-lg col-xs-6', "Waves"
-      button class:'btn btn-primary btn-lg col-xs-6', "Chill"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Rainbow Rows"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
       button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
     script src:"bundle.js"
 
