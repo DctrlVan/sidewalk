@@ -1,14 +1,14 @@
 Socket = require("net").Socket
 socket = new Socket()
 socket.setNoDelay()
-socket.connect 22000
+socket.connect 7890
 
 createOPCStream = require "opc"
 stream = createOPCStream()
 stream.pipe(socket)
 
 width = 13
-height = 62
+height = 63
 
 createStrand = require "opc/strand"
 strand = createStrand width*height
@@ -60,9 +60,7 @@ fullFill = (color, fill)->
 			x++
 		y++
 
-
 wave = (color,position)->
-
 	y = 0
 	while y < height
 		x = 0
@@ -75,7 +73,8 @@ wave = (color,position)->
 			x++
 		y++
 
-waves = (color)->
+waveShow = (colors)->
+	l = colors.length
 	j = 0
 	setInterval ->
 		j++
@@ -85,8 +84,35 @@ waves = (color)->
 		stream.writePixels(0, strand.buffer)
 	, 10
 
-waves()
+splitSinWave = (color, position)->
+	y = 0
+	while y < height
+		x = 0
+		while x < width
+			di = color
+			xx = (6.5 * Math.sin((y + position)/5) + 6.5)
+			if -.5 < xx - x < .5
+				columns[x].setPixel y, di[0],di[1],di[2]
+			else
+				columns[x].setPixel y,0,0,0
+			x++
+		y++
 
+sinShow = (colors)->
+	l = colors.length
+	j = 0
+	position = 0
+	setInterval ->
+		console.log 'sintest'
+		ci = j%l
+		splitSinWave(colors[ci], position)
+		stream.writePixels(0, strand.buffer)
+		position = position + 2
+		if position%50 == 0
+			j++
+	, 100
+
+sinShow(colors)
 
 rainbowShow = (colors,fill,speed)->
 	setInterval ->
@@ -104,5 +130,3 @@ flashShow = (colors, fill, speed)->
 		stream.writePixels(0, strand.buffer)
 		j++
 	, speed
-
-module.exports = { rainbowShow, flashShow }

@@ -70,6 +70,33 @@ strip = (color,position, size)->
 			x++
 		y++
 
+splitSinWave = (color, position)->
+	y = 0
+	while y < height
+		x = 0
+		while x < width
+			di = color
+			xx = (6.5 * Math.sin((y + position)/5) + 6.5)
+			if -.5 < xx - x < .5
+				columns[x].setPixel y, di[0],di[1],di[2]
+			else
+				columns[x].setPixel y,0,0,0
+			x++
+		y++
+
+sinShow = (colors)->
+	l = colors.length
+	j = 0
+	position = 0
+	setInterval ->
+		ci = j%l
+		splitSinWave(colors[ci], position)
+		stream.writePixels(0, strand.buffer)
+		position = position + 2
+		if position%50 == 0
+			j++
+	, 200
+
 waveShow = (colors, size, speed)->
 	l = colors.length
 	j = 0
@@ -100,4 +127,5 @@ flashShow = (colors, fill, speed)->
 		j++
 	, speed
 
-module.exports = { rainbowShow, flashShow , waveShow}
+
+module.exports = { rainbowShow, flashShow , waveShow, sinShow}

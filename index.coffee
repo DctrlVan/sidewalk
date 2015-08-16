@@ -26,10 +26,11 @@ WebServer.listen port, ->
         lightshow = shows.flashShow req.body.colorArray, .25, 77
       when "Waves"
         lightshow = shows.waveShow req.body.colorArray, 13, 13
+      when "Chill"
+        lightshow = shows.sinShow req.body.colorArray
       when "Cycle"
-        lightshow = shows.waveShow req.body.colorArray, 13, 13
+        lightshow = shows.waveShow req.body.colorArray, 13, 55
         setInterval ->
-          console.log "cycle"
           clearInterval lightshow
           lightshow = shows.rainbowShow req.body.colorArray, .4, 777
           setTimeout ->
@@ -59,7 +60,8 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6', "Rainbow Rows"
       button class:'btn btn-primary btn-lg col-xs-6', "Rave Lights"
       button class:'btn btn-primary btn-lg col-xs-6', "Waves"
-      button class:'btn btn-primary btn-lg col-xs-6', "Cycle"
+      button class:'btn btn-primary btn-lg col-xs-6', "Chill"
+      button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
     script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
