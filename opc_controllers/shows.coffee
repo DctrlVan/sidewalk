@@ -8,7 +8,7 @@ stream = createOPCStream()
 stream.pipe(socket)
 
 width = 13
-height = 62
+height = 63
 
 createStrand = require "opc/strand"
 strand = createStrand width*height
@@ -18,9 +18,6 @@ i = 0
 while i < width
 	columns.push strand.slice height*i, height*(i+1)
 	i++
-
-colors = [[233,33,55],[23,235,83]]
-fill = .3
 
 distort = (color)->
 	mod = [0,0,0]
@@ -41,7 +38,7 @@ bycolumns = (colors, fill)->
 			if d < fill
 				ci = j%l
 				di = distort colors[ci]
-				columns[j].setPixel i, di[0],di[1],di[2]
+				columns[j].setPixel i, di[1],di[0],di[2]
 			else
 				columns[j].setPixel i,0,0,0
 			j++
@@ -54,11 +51,38 @@ fullFill = (color, fill)->
 		while x < width
 			if Math.random() < fill
 				di = distort color
-				columns[x].setPixel y, di[0],di[1],di[2]
+				columns[x].setPixel y, di[1],di[0],di[2]
 			else
 				columns[x].setPixel y,0,0,0
 			x++
 		y++
+
+strip = (color,position, size)->
+	y = 0
+	while y < height
+		x = 0
+		while x < width
+			di = color
+			if 0 < (y - position) < size
+				columns[x].setPixel y, di[1],di[0],di[2]
+			else
+				columns[x].setPixel y,0,0,0
+			x++
+		y++
+
+waveShow = (colors, size, speed)->
+	l = colors.length
+	j = 0
+	c = 0
+	setInterval ->
+		position = j%height
+		if position == height - 1
+			c++
+		ci = c%l
+		strip(colors[ci], position, size)
+		stream.writePixels(0, strand.buffer)
+		j++
+	, speed
 
 rainbowShow = (colors,fill,speed)->
 	setInterval ->
@@ -71,10 +95,9 @@ flashShow = (colors, fill, speed)->
 	j = 0
 	setInterval ->
 		ci = j%l
-		console.log ci , colors[ci]
 		fullFill colors[ci], fill
 		stream.writePixels(0, strand.buffer)
 		j++
 	, speed
 
-module.exports = { rainbowShow, flashShow }
+module.exports = { rainbowShow, flashShow , waveShow}

@@ -18,13 +18,31 @@ WebServer.listen port, ->
 
   WebServer.post '/startshow', urlencodedParser, (req,res)->
     if lightshow? then clearInterval lightshow
+    console.log "New show request: ", req.body
     switch req.body.show
       when "Rainbow Rows"
-        lightshow = shows.rainbowShow req.body.colorArray, .4, 1000
+        lightshow = shows.rainbowShow req.body.colorArray, .4, 777
       when "Rave Lights"
-        lightshow = shows.flashShow req.body.colorArray, .44, 600
-    res.send "dance party"
+        lightshow = shows.flashShow req.body.colorArray, .25, 77
+      when "Waves"
+        lightshow = shows.waveShow req.body.colorArray, 13, 13
+      when "Cycle"
+        lightshow = shows.waveShow req.body.colorArray, 13, 13
+        setInterval ->
+          console.log "cycle"
+          clearInterval lightshow
+          lightshow = shows.rainbowShow req.body.colorArray, .4, 777
+          setTimeout ->
+            clearInterval lightshow
+            lightshow = shows.flashShow req.body.colorArray, .25, 77
+            setTimeout ->
+              clearInterval lightshow
+              lightshow = shows.waveShow req.body.colorArray, 13, 13
+            , 10000
+          , 10000
+        , 30000
 
+    res.send "dance party"
 
 indexTemplate = ->
   div class:"container",->
@@ -40,6 +58,8 @@ indexTemplate = ->
     div class:'submitButtons', ->
       button class:'btn btn-primary btn-lg col-xs-6', "Rainbow Rows"
       button class:'btn btn-primary btn-lg col-xs-6', "Rave Lights"
+      button class:'btn btn-primary btn-lg col-xs-6', "Waves"
+      button class:'btn btn-primary btn-lg col-xs-6', "Cycle"
     script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate

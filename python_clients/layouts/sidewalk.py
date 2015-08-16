@@ -3,7 +3,7 @@
 spacing = 0.11  # m
 lines = []
 for c in range(-6, 7):
-    rs = [range(50), reversed(range(50))][c % 2]
+    rs = [range(63), reversed(range(63))][c % 2]
     for r in rs:
         lines.append('  {"point": [%.2f, %.2f, %.2f]}' %
                      (c*spacing, 0, (r - 24.5)*spacing))
