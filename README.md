@@ -11,7 +11,7 @@ that send opc data out using the npm opc module.
 
 ## Installing: 
 
-It is best if following packages are installed globally
+It is best if following packages are installed globally              
 `sudo npm install -g coffee-script gulp browserify`     
  
 `git clone https://github.com/DecentralVan/openpixelgui.git && cd openpixelgui`      
