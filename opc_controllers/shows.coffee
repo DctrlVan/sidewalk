@@ -1,7 +1,7 @@
 Socket = require("net").Socket
 socket = new Socket()
 socket.setNoDelay()
-socket.connect 21296, 'localhost'
+socket.connect 21296, '127.0.0.1'
 
 createOPCStream = require "opc"
 stream = createOPCStream()
