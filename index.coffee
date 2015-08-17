@@ -31,6 +31,8 @@ WebServer.listen port, ->
         lightshow = shows.waveShow req.body.colorArray, 3, 25
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
+      when "Tetris"
+        lightshow = shows.tetris req.body.colorArray
       when "Cycle"
         lightshow = cycleShows()
     res.send "dance party"
@@ -51,6 +53,8 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
+      button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
+      button class:'btn btn-primary btn-lg col-xs-12', "Tetris"
     script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate

@@ -8,7 +8,7 @@ stream = createOPCStream()
 stream.pipe(socket)
 
 width = 13
-height = 63
+height = 62
 
 createStrand = require "opc/strand"
 strand = createStrand width*height
@@ -133,6 +133,5 @@ flashShow = (colors, fill, speed)->
 
 cycleShows = ->
 	#
-
 
 module.exports = { rainbowShow, flashShow , waveShow, sinShow, cycleShows}
