@@ -13,6 +13,12 @@ height = 62
 createStrand = require "opc/strand"
 strand = createStrand width*height
 
+scoreCallback = (sq, line, level)->
+	console.log "score updated", sq, line, level
+
+tetris = require "./tetris.js"
+# tetris = createTetris stream strand scoreCallback
+
 columns = []
 i = 0
 while i < width

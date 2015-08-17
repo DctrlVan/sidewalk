@@ -32,7 +32,7 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
-        lightshow = shows.tetris req.body.colorArray
+        lightshow = shows.tetris shows.stream strand
       when "Cycle"
         lightshow = cycleShows()
     res.send "dance party"
