@@ -22,7 +22,7 @@ the module files are mis-labelled. You have to edit the file
 names. i.e. 'emitter-component' changes to emitter, jquery can
 be removed completely from this submodule, use these commands:         
 `mv node_modules/color-picker/node_modules/emitter-component/ node_modules/color-picker/node_modules/emitter`      
-`rm -rf node_modules/color-picker/node_modules/jquery-component`      
+`sudo rm -rf node_modules/color-picker/node_modules/jquery-component`      
 --- !!!!!!!!!!!!!!!!! ---------
 Then:                
 `npm run compile`       
@@ -33,11 +33,6 @@ Open a browser to localhost:3456
 you can launch a local light processor simulation using 
 `./bin/gl_server -l sidewalk_layout.json
 opc data can now be directed to localhost:22000
-
-
-
-
-
 
 
 
