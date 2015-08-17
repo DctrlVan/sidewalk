@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.4.2",
     "body-parser": "^1.13.2",
     "bootstrap": "^3.3.5",
     "coffeeify": "^1.1.0",
@@ -17,8 +16,7 @@
     "color-picker": "0.0.1",
     "express": "^4.13.1",
     "jquery": "^2.1.4",
-    "opc": "^1.1.2",
-    "simple-color-picker": "0.0.6"
+    "opc": "^1.1.2"
   },
   "devDependencies": {
     "gulp-concat": "^2.6.0",
