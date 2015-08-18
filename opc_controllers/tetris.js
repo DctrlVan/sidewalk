@@ -6,6 +6,29 @@
 //   console.log("score: " + score.toString());
 // };
 
+var Socket = require("net").Socket
+var socket = new Socket()
+socket.setNoDelay()
+socket.connect(7890)
+
+var createOPCStream = require("opc")
+var stream = createOPCStream()
+stream.pipe(socket)
+
+var width = 13
+var height = 62
+
+var createStrand = require("opc/strand")
+var strand = createStrand(width*height)
+
+scoreCallback = function (sq, line, level){
+	console.log("score updated", sq, line, level);
+}
+var columns = []
+for (i = 0; i < width; i++) {
+	columns.push(strand.slice(height*i, height*(i+1)));
+};
+
 function Tetris(stream, strand, score_callback) {
     var width = 13,
         height = 62,
@@ -34,7 +57,7 @@ function Tetris(stream, strand, score_callback) {
       var self = this;
 
       var shapes = [
-        [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]], 
+        [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]],
         [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [0, 1, 0, 0], [1, 1, 1, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 1, 1, 0]],
@@ -280,13 +303,12 @@ function Tetris(stream, strand, score_callback) {
     }
 
     function draw_block(x, y, r, g, b) {
-      strand.setPixel(((width-x)*height)-y-1, r, g, b)
+      columns[x].setPixel(y, r, g, b);
     }
 
     function handleKeys(e) {
       var k;
       var evt = (e) ? e : window.event;
-
       k = (evt.charCode) ?
         evt.charCode : evt.keyCode;
       if (k > 36 && k < 41) {
@@ -315,5 +337,7 @@ function Tetris(stream, strand, score_callback) {
 
     initialize();
 }
+
+Tetris(stream, strand, scoreCallback);
 
 module.exports = Tetris;
