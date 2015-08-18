@@ -6,6 +6,18 @@
 //   console.log("score: " + score.toString());
 // };
 
+var npm_opc = require("./opc_init.coffee")
+
+var width = npm_opc.width
+var height = npm_opc.height
+var strand = npm_opc.strand
+var columns = npm_opc.columns
+var stream = npm_opc.stream
+
+score_callback = function(sq, line, level){
+	console.log("score updated", sq, line, level);
+}
+
 function Tetris(stream, strand, score_callback) {
     var width = 13,
         height = 62,
@@ -34,7 +46,7 @@ function Tetris(stream, strand, score_callback) {
       var self = this;
 
       var shapes = [
-        [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]], 
+        [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]],
         [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [0, 1, 0, 0], [1, 1, 1, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 1, 0], [0, 1, 1, 0]],
@@ -280,7 +292,7 @@ function Tetris(stream, strand, score_callback) {
     }
 
     function draw_block(x, y, r, g, b) {
-      strand.setPixel(((width-x)*height)-y-1, r, g, b)
+      columns[x].setPixel(y,r,g,b);
     }
 
     function handleKeys(e) {
@@ -316,4 +328,6 @@ function Tetris(stream, strand, score_callback) {
     initialize();
 }
 
-module.exports = Tetris;
+module.exports = function(){
+  Tetris(stream, strand, score_callback);
+}

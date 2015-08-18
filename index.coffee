@@ -8,6 +8,7 @@ urlencodedParser = bodyParser.urlencoded({ extended: true })
 port=3456
 
 shows = require "./opc_controllers/shows.coffee"
+tetris = require "./opc_controllers/tetris.js"
 
 lightshow = null
 
@@ -32,7 +33,7 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
-        lightshow = shows.tetris shows.stream strand
+        lightshow = tetris()
       when "Cycle"
         lightshow = cycleShows()
     res.send "dance party"
