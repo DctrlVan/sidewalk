@@ -93,8 +93,10 @@ sinShow = (colors)->
 		splitSinWave(colors[ci], position)
 		stream.writePixels(0, strand.buffer)
 		position++
+		if position > 1000 then position = 0
 		if position%50 == 0
 			j++
+			if j > 1000 then j = 0
 	, 200
 
 waveShow = (colors, size, speed)->
@@ -109,6 +111,7 @@ waveShow = (colors, size, speed)->
 		strip(colors[ci], position, size)
 		stream.writePixels(0, strand.buffer)
 		j++
+		if j > 1000 then j = 0
 	, speed
 
 rainbowShow = (colors,fill,speed)->
@@ -125,7 +128,11 @@ flashShow = (colors, fill, speed)->
 		fullFill colors[ci], fill
 		stream.writePixels(0, strand.buffer)
 		j++
+		if j > 1000 then j = 0
 	, speed
 
+cycleShows = ->
+	#
 
-module.exports = { rainbowShow, flashShow , waveShow, sinShow}
+
+module.exports = { rainbowShow, flashShow , waveShow, sinShow, cycleShows}

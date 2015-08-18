@@ -24,26 +24,15 @@ WebServer.listen port, ->
       req.body.colorArray = [[255,0,0],[0,255,0],[0,0,255]]
     switch req.body.show
       when "Rainbow Rows"
-        lightshow = shows.rainbowShow req.body.colorArray, .4, 777
+        lightshow = shows.rainbowShow req.body.colorArray, .33, 1111
       when "Rave Lights"
-        lightshow = shows.flashShow req.body.colorArray, .25, 77
+        lightshow = shows.flashShow req.body.colorArray, .19, 111
       when "Waves"
-        lightshow = shows.waveShow req.body.colorArray, 13, 13
+        lightshow = shows.waveShow req.body.colorArray, 3, 25
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Cycle"
-        c = 0
-        cycle = setInterval ->
-          clearInterval lightshow
-          switch c
-            when 0
-              lightshow = shows.rainbowShow req.body.colorArray, .4, 777
-            when 1
-              lightshow = shows.waveShow req.body.colorArray, 13, 13
-            when 2
-              lightshow = shows.flashShow req.body.colorArray, .25, 77
-          c++
-        , 20000
+        lightshow = cycleShows()
     res.send "dance party"
 
 indexTemplate = ->
@@ -62,7 +51,6 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
-      button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
     script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
