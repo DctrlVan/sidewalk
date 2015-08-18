@@ -25,7 +25,8 @@ be removed completely from this submodule, use these commands:
 `sudo rm -rf node_modules/color-picker/node_modules/jquery-component`      
 --- !!!!!!!!!!!!!!!!! ---------
 Then:                 
-`mkdir public && touch public/bundle.js`            
+`mkdir public && touch public/bundle.js`     
+`npm run localshow`
 `npm run compile`        
 
 Open a browser to localhost:3456
