@@ -8,6 +8,8 @@
 
 var npm_opc = require("./opc_init.coffee")
 
+var WIDTH = npm_opc.width
+var HEIGHT = npm_opc.height
 var strand = npm_opc.strand
 var columns = npm_opc.columns
 var stream = npm_opc.stream
@@ -17,8 +19,8 @@ score_callback = function(sq, line, level){
 }
 
 function Tetris(stream, strand, score_callback) {
-    var width = 13,
-        height = 62,
+    var width = WIDTH,
+        height = HEIGHT,
         fill_r = 220,
         fill_g = 25,
         fill_b = 85,
