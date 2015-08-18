@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 npm_opc = require "./opc_init.coffee"
 
 width = npm_opc.width
@@ -5,6 +6,34 @@ height = npm_opc.height
 strand = npm_opc.strand
 columns = npm_opc.columns
 stream = npm_opc.stream
+=======
+Socket = require("net").Socket
+socket = new Socket()
+socket.setNoDelay()
+socket.connect 21296, '127.0.0.1'
+
+createOPCStream = require "opc"
+stream = createOPCStream()
+stream.pipe(socket)
+
+width = 13
+height = 62
+
+createStrand = require "opc/strand"
+strand = createStrand width*height
+
+scoreCallback = (sq, line, level)->
+	console.log "score updated", sq, line, level
+
+tetris = require "./tetris.js"
+# tetris = createTetris stream strand scoreCallback
+
+columns = []
+i = 0
+while i < width
+	columns.push strand.slice height*i, height*(i+1)
+	i++
+>>>>>>> tetris
 
 distort = (color)->
 	mod = [0,0,0]
@@ -120,6 +149,5 @@ flashShow = (colors, fill, speed)->
 
 cycleShows = ->
 	#
-
 
 module.exports = { rainbowShow, flashShow , waveShow, sinShow, cycleShows}
