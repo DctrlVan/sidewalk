@@ -1,7 +1,7 @@
 spacing = 0.11
 
 cols = [-6..6]  #13 cols
-rows = [-31..31] #63 rows
+rows = [-30..31] #63 rows
 
 lines = []
 for c in cols
