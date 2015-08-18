@@ -14,11 +14,3 @@ json = JSON.stringify lines
 # From the command line, create a layout by
 # use coffee <this file>  >  <destinationFile>.json
 console.log json
-
-
-
-
-
-
-
-bgn = "[\n"
