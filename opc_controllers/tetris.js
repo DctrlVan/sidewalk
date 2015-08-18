@@ -8,8 +8,6 @@
 
 var npm_opc = require("./opc_init.coffee")
 
-var width = npm_opc.width
-var height = npm_opc.height
 var strand = npm_opc.strand
 var columns = npm_opc.columns
 var stream = npm_opc.stream
