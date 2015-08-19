@@ -41,7 +41,26 @@ $(document).ready ->
           $(@).text(submitDoc["show"])
         , 2000
 
-  $(".tetrisButtons").on "click", "div", (e)->
+  $(".tetrisButton").on "click" , (e)->
+    e.preventDefault()
+    if $(@).hasClass('tetrisButton')
+      $(@).find('.tetrisControls').show()
+      submitDoc = {}
+      submitDoc["show"] = $(@).text()
+      submitDoc["colorArray"] = colors
+      $.ajax
+        type:'POST'
+        url:'/startshow'
+        data: submitDoc
+        success: ->
+          $(@).text("~~~!!!active!!!~~~")
+          setTimeout ->
+            $(@).text(submitDoc["show"])
+          , 2000
+    $(@).removeClass('tetrisButton')
+
+
+  $(".tetrisControls").on "click", "div", (e)->
     e.preventDefault()
     direction = $(@).attr('class')
     $.ajax

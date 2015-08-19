@@ -141,7 +141,7 @@ TETRIS = function Tetris(stream, strand, score_callback) {
         reset();
     }
 
-    function rotate_shape() {
+    this.rotate_shape = function() {
       rotated_shape = active_shape.clone();
       rotated_shape.rotate();
 
@@ -342,6 +342,9 @@ module.exports ={
 					break;
 			case "DOWN":
 					T.move_down();
+					break;
+			case "ROTATE":
+					T.rotate_shape();
 					break;
 				} //switch
 		} // move

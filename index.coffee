@@ -10,6 +10,7 @@ port=3456
 shows = require "./opc_controllers/shows.coffee"
 tetris = require "./opc_controllers/tetris.js"
 
+tetrising = off
 lightshow = null
 
 WebServer.listen port, ->
@@ -33,14 +34,17 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
-        tetris.init()
+        if not tetrising
+          tetris.init()
+        tetrising = on
       when "Cycle"
         lightshow = cycleShows()
     res.send "dance party"
 
   WebServer.get '/tetris/:direction', (req,res) ->
     console.log req.params.direction
-    tetris.move(req.param.direction)
+    tetris.move(String req.params.direction)
+    res.send "tetrising!"
 
 indexTemplate = ->
   div class:"container",->
@@ -59,15 +63,18 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
       button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
-      button class:'btn btn-primary btn-lg col-xs-12', ->
-        text 'Tetris'
-        div class:'tetrisButtons', ->
-          div class:'LEFT' , ->
-            i class:"glyphicon glyphicon-arrow-left col-xs-6"
-          div class:'RIGHT', ->
-            i class:"glyphicon glyphicon-arrow-right col-xs-6"
-          div class: 'DOWN' , ->
-            i class:"glyphicon glyphicon-arrow-down col-xs-12"
+
+    button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
+      text 'Tetris'
+      div class:'tetrisControls', ->
+        div class: 'ROTATE' , ->
+          i class:"glyphicon glyphicon-retweet col-xs-12"
+        div class:'LEFT' , ->
+          i class:"glyphicon glyphicon-arrow-left col-xs-6"
+        div class:'RIGHT', ->
+          i class:"glyphicon glyphicon-arrow-right col-xs-6"
+        div class: 'DOWN' , ->
+          i class:"glyphicon glyphicon-arrow-down col-xs-12"
   script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
