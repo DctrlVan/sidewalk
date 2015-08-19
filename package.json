@@ -5,7 +5,7 @@
   "main": "index.coffee",
   "scripts": {
     "compile": "browserify -t coffeeify -o public/bundle.js browserScripts/browser.coffee; gulp; coffee index.coffee",
-    "localshow" :"./bin/gl_server -l layouts/sidewalk.json &" 
+    "localshow": "./bin/gl_server -l layouts/sidewalk.json &"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "gulp-concat": "^2.6.0",
-    "gulp-minify-css": "^1.2.0"
+    "gulp-minify-css": "^1.2.0",
+    "gulp-sass": "^2.0.4"
   }
 }

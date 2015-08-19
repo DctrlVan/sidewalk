@@ -45,3 +45,11 @@ h1:nth-child(odd) {
 .clearcolor{
 float:left;
 }
+
+.tetrisButtons{
+	font-size: 5em;
+	color: black;
+	border-radius: 100%
+	border-style:solid;
+	min-height: 50px;
+}

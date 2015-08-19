@@ -59,13 +59,16 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
       button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
-      button class:'btn btn-primary btn-lg col-xs-12', "Tetris"
-    div class:'col-xs-4', ->
-      div class:'tetrisButtons', ->
-        button class:'btn btn-primary btn-lg col-xs-6',  "LEFT"
-        button class:'btn btn-primary btn-lg col-xs-6',  "RIGHT"
-        button class:'btn btn-primary btn-lg col-xs-12',  "DOWN"
-      script src:"bundle.js"
+      button class:'btn btn-primary btn-lg col-xs-12', ->
+        text 'Tetris'
+        div class:'tetrisButtons', ->
+          div class:'LEFT' , ->
+            i class:"glyphicon glyphicon-arrow-left col-xs-6"
+          div class:'RIGHT', ->
+            i class:"glyphicon glyphicon-arrow-right col-xs-6"
+          div class: 'DOWN' , ->
+            i class:"glyphicon glyphicon-arrow-down col-xs-12"
+  script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
 

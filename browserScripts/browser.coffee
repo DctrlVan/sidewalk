@@ -1,7 +1,9 @@
 $ = require "jquery"
 ColorPicker = require "color-picker"
 picker = new ColorPicker()
+#bootstrap = require 'bootstrap'
 #ColorpickerHtml = require("../templates/colorpicker.coffee")
+
 
 colors = []
 $(document).ready ->
@@ -27,8 +29,6 @@ $(document).ready ->
   $(".submitButtons").on "click", "button", (e)->
     e.preventDefault()
     submitDoc = {}
-    console.log $(@).text()
-    console.log colors
     submitDoc["show"] = $(@).text()
     submitDoc["colorArray"] = colors
     $.ajax
@@ -41,10 +41,11 @@ $(document).ready ->
           $(@).text(submitDoc["show"])
         , 2000
 
-  $(".tetrisButtons").on "click", "button", (e)->
+  $(".tetrisButtons").on "click", "div", (e)->
     e.preventDefault()
+    direction = $(@).attr('class')
     $.ajax
       type:'GET'
-      url:"tetris/#{$(@).text()}"
+      url:"tetris/#{direction}"
       success: ->
         null
