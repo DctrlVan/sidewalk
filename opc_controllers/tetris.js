@@ -18,7 +18,7 @@ score_callback = function(sq, line, level){
 	console.log("score updated", sq, line, level);
 }
 
-function Tetris(stream, strand, score_callback) {
+TETRIS = function Tetris(stream, strand, score_callback) {
     var width = WIDTH,
         height = HEIGHT,
         fill_r = 220,
@@ -157,7 +157,7 @@ function Tetris(stream, strand, score_callback) {
         active_shape = rotated_shape;
     }
 
-    function move_left() {
+    this.move_left = function () {
       active_shape.x--;
       if (out_of_bounds() || is_collision(active_shape)) {
         active_shape.x++;
@@ -166,7 +166,7 @@ function Tetris(stream, strand, score_callback) {
       return true;
     }
 
-    function move_right() {
+    this.move_right = function () {
       active_shape.x++;
       if (out_of_bounds() || is_collision(active_shape)) {
         active_shape.x--;
@@ -175,7 +175,7 @@ function Tetris(stream, strand, score_callback) {
       return true;
     }
 
-    function move_down() {
+    this.move_down = function () {
       active_shape.y++;
       if (check_bottom() || is_collision(active_shape)) {
         active_shape.y--;
@@ -268,7 +268,6 @@ function Tetris(stream, strand, score_callback) {
     }
 
     function draw_game_board() {
-
       for (var y = 0; y < height; y++)
         for (var x = 0; x < width; x++)
           draw_block(x, y, board_r, board_g, board_b);
@@ -326,8 +325,24 @@ function Tetris(stream, strand, score_callback) {
     }
 
     initialize();
+		return this
 }
 
-module.exports = function(){
-  Tetris(stream, strand, score_callback);
-}
+module.exports ={
+	"init" : function(){
+	  T = TETRIS(stream, strand, score_callback);
+	},
+	"move" :  function(direction){
+		switch(direction){
+			case "LEFT":
+				  T.move_left();
+					break;
+			case "RIGHT":
+					T.move_right();
+					break;
+			case "DOWN":
+					T.move_down();
+					break;
+				} //switch
+		} // move
+} // export

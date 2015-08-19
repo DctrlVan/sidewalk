@@ -36,4 +36,15 @@ $(document).ready ->
       url:'/startshow'
       data: submitDoc
       success: ->
-        window.alert "Your Lightshow Is Active, Go Dance"
+        $(@).text("~~~!!!active!!!~~~")
+        setTimeout ->
+          $(@).text(submitDoc["show"])
+        , 2000
+
+  $(".tetrisButtons").on "click", "button", (e)->
+    e.preventDefault()
+    $.ajax
+      type:'GET'
+      url:"tetris/#{$(@).text()}"
+      success: ->
+        null

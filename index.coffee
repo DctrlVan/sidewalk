@@ -33,10 +33,14 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
-        lightshow = tetris()
+        tetris.init()
       when "Cycle"
         lightshow = cycleShows()
     res.send "dance party"
+
+  WebServer.get '/tetris/:direction', (req,res) ->
+    console.log req.params.direction
+    tetris.move(req.param.direction)
 
 indexTemplate = ->
   div class:"container",->
@@ -56,7 +60,12 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
       button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
       button class:'btn btn-primary btn-lg col-xs-12', "Tetris"
-    script src:"bundle.js"
+    div class:'col-xs-4', ->
+      div class:'tetrisButtons', ->
+        button class:'btn btn-primary btn-lg col-xs-6',  "LEFT"
+        button class:'btn btn-primary btn-lg col-xs-6',  "RIGHT"
+        button class:'btn btn-primary btn-lg col-xs-12',  "DOWN"
+      script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
 
