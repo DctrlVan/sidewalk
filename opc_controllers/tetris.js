@@ -309,7 +309,7 @@ TETRIS = function Tetris(stream, strand, score_callback) {
 
     function update_board() {
       move_down();
-      t = setTimeout(function() { update_board(); }, 50 - (5 * level));
+      t = setTimeout(function() { update_board(); }, 150 - (5 * level));
     }
 
     function initialize() {
