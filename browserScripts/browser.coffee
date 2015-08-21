@@ -44,7 +44,8 @@ $(document).ready ->
   $(".tetrisButton").on "click" , (e)->
     e.preventDefault()
     if $(@).hasClass('tetrisButton')
-      $(@).find('.tetrisControls').show()
+      $(".tetrisControls").show()
+      $('html, body').animate({scrollTop:$(document).height()}, 'fast')
       submitDoc = {}
       submitDoc["show"] = $(@).text()
       submitDoc["colorArray"] = colors

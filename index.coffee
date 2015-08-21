@@ -47,6 +47,10 @@ WebServer.listen port, ->
     res.send "tetrising!"
 
 indexTemplate = ->
+  head ->
+    title 'Sidewalk Controller'
+    meta name: 'viewport', content: 'width=device-width,
+    initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'
   div class:"container",->
     link rel:"stylesheet",href:"bundle.css"
     h1 "DECENTRAL"
@@ -66,15 +70,15 @@ indexTemplate = ->
 
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
-      div class:'tetrisControls', ->
-        div class: 'ROTATE' , ->
-          i class:"glyphicon glyphicon-retweet col-xs-12"
-        div class:'LEFT' , ->
-          i class:"glyphicon glyphicon-arrow-left col-xs-6"
-        div class:'RIGHT', ->
-          i class:"glyphicon glyphicon-arrow-right col-xs-6"
-        div class: 'DOWN' , ->
-          i class:"glyphicon glyphicon-arrow-down col-xs-12"
+    div class:'tetrisControls', ->
+      div class: 'ROTATE' , ->
+        i class:"glyphicon glyphicon-retweet col-xs-12"
+      div class:'LEFT' , ->
+        i class:"glyphicon glyphicon-arrow-left col-xs-6"
+      div class:'RIGHT', ->
+        i class:"glyphicon glyphicon-arrow-right col-xs-6"
+      div class: 'DOWN' , ->
+        i class:"glyphicon glyphicon-arrow-down col-xs-12"
   script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate

@@ -5,6 +5,7 @@ body{
 
 .container{
 	background-color: black;
+	width: 100%;
 }
 
 h1{
@@ -51,7 +52,7 @@ float:left;
 }
 .tetrisControls{
 	font-size: 5em;
-	color: black;
+	color: white;
 	border-radius: 100%
 	border-style:solid;
 	min-height: 50px;
