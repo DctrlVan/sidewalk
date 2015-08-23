@@ -42,8 +42,8 @@ WebServer.listen port, ->
     res.send "dance party"
 
   WebServer.get '/tetris/:direction', (req,res) ->
-    console.log req.params.direction
-    tetris.move(String req.params.direction)
+    console.log req.params.direction.split(" ")[0]
+    tetris.move(String req.params.direction.split(" ")[0])
     res.send "tetrising!"
 
 indexTemplate = ->
@@ -66,19 +66,16 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
-      button class:'btn btn-primary btn-lg col-xs-12', "Cycle"
 
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
-    div class:'tetrisControls', ->
-      div class: 'ROTATE' , ->
-        i class:"glyphicon glyphicon-retweet col-xs-12"
-      div class:'LEFT' , ->
-        i class:"glyphicon glyphicon-arrow-left col-xs-6"
-      div class:'RIGHT', ->
-        i class:"glyphicon glyphicon-arrow-right col-xs-6"
-      div class: 'DOWN' , ->
-        i class:"glyphicon glyphicon-arrow-down col-xs-12"
+    div class:'tetrisControls col-xs-12', ->
+      div class: 'ROTATE col-xs-12' , ->
+        text '<->'
+      div class:'RIGHT col-xs-6' , ->
+        text '<-'
+      div class:'LEFT col-xs-6', ->
+        text '->'
   script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
