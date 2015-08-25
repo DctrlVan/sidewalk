@@ -41,7 +41,7 @@ WebServer.listen port, ->
       when "Cycle"
         lightshow = cycleShows()
       when "Banner"
-        lightshow = writer.banner req.body.banner, 255,0,0
+        lightshow = writer.banner req.body.banner[0..8].toUpperCase(), 255,0,0
     res.sendStatus 100
 
   WebServer.get '/tetris/:direction', (req,res) ->
@@ -72,7 +72,6 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Banner"
       div class:'col-xs-6', ->
         input class:'banner', type:'text'
-
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
     div class:'tetrisControls col-xs-12', ->
