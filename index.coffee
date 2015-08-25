@@ -70,12 +70,14 @@ indexTemplate = ->
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
     div class:'tetrisControls col-xs-12', ->
-      div class: 'ROTATE col-xs-12' , ->
-        text '<->'
-      div class:'RIGHT col-xs-6' , ->
-        text '<-'
-      div class:'LEFT col-xs-6', ->
-        text '->'
+      div class:'ROTATE' , ->
+        i class:"glyphicon glyphicon-refresh col-xs-12"
+      div class:'LEFT' , ->
+        i class:"glyphicon glyphicon-arrow-left col-xs-6"
+      div class:'RIGHT', ->
+        i class:"glyphicon glyphicon-arrow-right col-xs-6"
+      div class: 'DOWN' , ->
+        i class:"glyphicon glyphicon-arrow-down col-xs-12"
   script src:"bundle.js"
 
 indexHtml = ck.render indexTemplate
