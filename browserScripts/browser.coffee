@@ -4,7 +4,6 @@ picker = new ColorPicker()
 #bootstrap = require 'bootstrap'
 #ColorpickerHtml = require("../templates/colorpicker.coffee")
 
-
 colors = []
 $(document).ready ->
   picker.el.appendTo '.picker'
@@ -31,6 +30,8 @@ $(document).ready ->
     submitDoc = {}
     submitDoc["show"] = $(@).text()
     submitDoc["colorArray"] = colors
+    submitDoc["banner"] = $('.banner').val()
+    console.log submitDoc
     $.ajax
       type:'POST'
       url:'/startshow'
@@ -59,7 +60,6 @@ $(document).ready ->
             $(@).text(submitDoc["show"])
           , 2000
     $(@).removeClass('tetrisButton')
-
 
   $(".tetrisControls").on "click", "div", (e)->
     e.preventDefault()

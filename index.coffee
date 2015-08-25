@@ -9,6 +9,7 @@ port=3456
 
 shows = require "./opc_controllers/shows.coffee"
 tetris = require "./opc_controllers/tetris.js"
+writer = require "./opc_controllers/alphabet.coffee"
 
 tetrising = off
 lightshow = null
@@ -39,7 +40,9 @@ WebServer.listen port, ->
         tetrising = on
       when "Cycle"
         lightshow = cycleShows()
-    res.send "dance party"
+      when "Banner"
+        lightshow = writer.banner req.body.banner, 255,0,0
+    res.sendStatus 100
 
   WebServer.get '/tetris/:direction', (req,res) ->
     console.log req.params.direction.split(" ")[0]
@@ -66,6 +69,9 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
       button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Banner"
+      div class:'col-xs-6', ->
+        input class:'banner', type:'text'
 
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
@@ -78,7 +84,11 @@ indexTemplate = ->
         i class:"glyphicon glyphicon-arrow-right col-xs-6"
       div class: 'DOWN' , ->
         i class:"glyphicon glyphicon-arrow-down col-xs-12"
+
   script src:"bundle.js"
+
+
+
 
 indexHtml = ck.render indexTemplate
 
