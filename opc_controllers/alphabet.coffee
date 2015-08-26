@@ -251,9 +251,7 @@ longBanner = (phrase, r, g, b)->
       if start < 0 then start += 6
       j++
       min = Math.max 0 , j-10
-      console.log min, j
       word = phrase[ min ... j ]
-      console.log word
       if word.length == 0
           start = 57
           i = 0
