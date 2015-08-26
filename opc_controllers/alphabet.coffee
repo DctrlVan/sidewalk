@@ -200,14 +200,15 @@ alphabet =
   ]
 
 horizontalLetter = (Yposition, Xposition ,letter, r, g, b)->
-  for columnArray, Yindex in alphabet[letter]
-    for pixel, Xindex in columnArray
-      j = Yindex + Yposition
-      i = Xindex + Xposition
-      if pixel==1
-        columns[j].setPixel(i,r,g,b)
-      else
-        columns[j].setPixel(i,0,0,0)
+  if alphabet[letter]?
+    for columnArray, Yindex in alphabet[letter]
+      for pixel, Xindex in columnArray
+        j = Yindex + Yposition
+        i = Xindex + Xposition
+        if pixel==1
+          columns[j].setPixel(i,r,g,b)
+        else
+          columns[j].setPixel(i,0,0,0)
 
 verticalLetter = (Yposition, Xposition ,letter, r, g, b)->
   for columnArray, Xindex in alphabet[letter]
