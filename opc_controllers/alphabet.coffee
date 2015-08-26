@@ -236,4 +236,17 @@ banner = (word, r, g, b)->
     start++
   , 323
 
-module.exports =  { banner }
+scrollText = (phrase, r, g, b)->
+  x = 1
+  length = phrase.length
+  i = 0
+  setInterval ->
+    if i > length-8 then i = 0
+    visible = phrase[(length-10)-i...length-i]
+    topHorizontalWord(x,visible,r,g,b)
+    stream.writePixels(0, strand.buffer);
+    ledUtil.clear()
+    i++
+  , 323
+
+module.exports =  { banner , scrollText }
