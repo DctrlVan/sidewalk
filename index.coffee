@@ -41,7 +41,7 @@ WebServer.listen port, ->
       when "Cycle"
         lightshow = cycleShows()
       when "Banner"
-        lightshow = writer.banner req.body.banner[0..8].toUpperCase(), 255,0,0
+        lightshow = writer.longBanner req.body.banner.toUpperCase(), 255,0,0
     res.sendStatus 100
 
   WebServer.get '/tetris/:direction', (req,res) ->

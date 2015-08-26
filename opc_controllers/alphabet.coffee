@@ -219,24 +219,53 @@ verticalLetter = (Yposition, Xposition ,letter, r, g, b)->
       else
         columns[j].setPixel(i,0,0,0)
 
-#NINE LETTER MAX (TODO:Handle longer strings)
 topHorizontalWord = (start, word, r, g, b)->
   x = 1
   for letter, index in word
     y = (start + (6*index)) % 57
-    horizontalLetter(x,y,letter,r,g,b)
+    if y > 0
+      horizontalLetter(x,y,letter,r,g,b)
 
-#NINE LETTER MAX (TODO:Handle longer strings)
-banner = (word, r, g, b)->
+#NINE LETTER MAX
+# This banner loops forwards wraps word
+shortBanner = (word, r, g, b)->
   start = 0
   setInterval ->
-    topHorizontalWord(start,word,200,33,50)
+    topHorizontalWord(start,word,r,g,b)
     stream.writePixels(0, strand.buffer);
     ledUtil.clear()
     start++
   , 323
 
-scrollText = (phrase, r, g, b)->
+longBanner = (phrase, r, g, b)->
+  start = 57
+  i = 0
+  j = 0
+  k = 0
+  word = phrase[0]
+  setInterval ->
+    topHorizontalWord(start,word,200,33,50)
+    stream.writePixels(0, strand.buffer);
+    ledUtil.clear()
+    if i % 6 == 0
+      if start < 0 then start += 6
+      j++
+      min = Math.max 0 , j-10
+      console.log min, j
+      word = phrase[ min ... j ]
+      console.log word
+      if word.length == 0
+          start = 57
+          i = 0
+          j = 0
+          k = 0
+          word = phrase[0]
+    i++
+    start--
+  , 300
+
+###
+longBanner = (phrase, r, g, b)->
   x = 1
   length = phrase.length
   i = 0
@@ -248,5 +277,9 @@ scrollText = (phrase, r, g, b)->
     ledUtil.clear()
     i++
   , 323
+###
 
-module.exports =  { banner , scrollText }
+# longBanner "THIS IS A TEST THIS IS A TEST THIS IS A TEST THIS IS A TEST", 255,0,0
+#shortBanner "THIS IS", 255,0,0
+
+module.exports =  { shortBanner, longBanner }
