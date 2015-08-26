@@ -234,6 +234,6 @@ banner = (word, r, g, b)->
     stream.writePixels(0, strand.buffer);
     ledUtil.clear()
     start++
-  , 50
+  , 323
 
 module.exports =  { banner }
