@@ -59,3 +59,8 @@ float:left;
 	display:none;
 	position: relative;
 }
+
+input.banner{
+	width: 100%;
+	padding:1em;
+}
