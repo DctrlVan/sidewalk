@@ -11,7 +11,6 @@ shows = require "./opc_controllers/shows.coffee"
 tetris = require "./opc_controllers/tetris.js"
 writer = require "./opc_controllers/alphabet.coffee"
 
-tetrising = off
 lightshow = null
 
 WebServer.listen port, ->
@@ -20,7 +19,9 @@ WebServer.listen port, ->
     res.send indexHtml
 
   WebServer.post '/startshow', urlencodedParser, (req,res)->
-    if lightshow? then clearInterval lightshow
+    if lightshow?
+      clearInterval lightshow
+      tetris.breakInterval()
     if cycle? then clearInterval cycle
     console.log "New show request: ", req.body
     if !req.body.colorArray?
@@ -35,19 +36,18 @@ WebServer.listen port, ->
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
-        if not tetrising
-          tetris.init()
-        tetrising = on
+        localshow = tetris.interval()
+        T = tetris.init  req.body.colorArray
       when "Cycle"
         lightshow = cycleShows()
       when "Banner"
         lightshow = writer.banner req.body.banner[0..8].toUpperCase(), 255,0,0
-    res.sendStatus 100
+    res.sendStatus 200
 
   WebServer.get '/tetris/:direction', (req,res) ->
-    console.log req.params.direction.split(" ")[0]
-    tetris.move(String req.params.direction.split(" ")[0])
-    res.send "tetrising!"
+    movement = String req.params.direction.split(" ")[0]
+    tetris.move movement
+    res.sendStatus 200
 
 indexTemplate = ->
   head ->
@@ -85,9 +85,6 @@ indexTemplate = ->
         i class:"glyphicon glyphicon-arrow-down col-xs-12"
 
   script src:"bundle.js"
-
-
-
 
 indexHtml = ck.render indexTemplate
 

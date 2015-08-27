@@ -59,7 +59,6 @@ $(document).ready ->
           setTimeout ->
             $(@).text(submitDoc["show"])
           , 2000
-    $(@).removeClass('tetrisButton')
 
   $(".tetrisControls").on "click", "div", (e)->
     e.preventDefault()

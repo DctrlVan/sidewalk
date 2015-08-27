@@ -13,17 +13,17 @@ var HEIGHT = npm_opc.height
 var strand = npm_opc.strand
 var columns = npm_opc.columns
 var stream = npm_opc.stream
-
+var intervalObj = null
 score_callback = function(sq, line, level){
 	console.log("score updated", sq, line, level);
 }
 
-TETRIS = function Tetris(stream, strand, score_callback) {
+TETRIS = function Tetris(stream, strand, colors, score_callback) {
     var width = WIDTH,
         height = HEIGHT,
-        fill_r = 220,
-        fill_g = 25,
-        fill_b = 85,
+        fill_r = colors[0][0],
+        fill_g = colors[0][1],
+        fill_b = colors[0][2],
         board_r = 0,
         board_g = 0,
         board_b = 0,
@@ -287,7 +287,7 @@ TETRIS = function Tetris(stream, strand, score_callback) {
 
       stream.writePixels(0, strand.buffer);
 
-      t = setTimeout(function() { draw_game_board(); }, 30);
+      //t = setTimeout(function() { draw_game_board(); }, 30);
     }
 
     function draw_block(x, y, r, g, b) {
@@ -309,7 +309,7 @@ TETRIS = function Tetris(stream, strand, score_callback) {
 
     function update_board() {
       move_down();
-      t = setTimeout(function() { update_board(); }, 150 - (5 * level));
+      //t = setTimeout(function() { update_board(); }, 150 - (5 * level));
     }
 
     function initialize() {
@@ -318,19 +318,27 @@ TETRIS = function Tetris(stream, strand, score_callback) {
 
       // create handlers
       // document.onkeypress = function(e) { return handleKeys(e) };
-
       reset();
-      draw_game_board();
-      update_board();
-    }
-
+      intervalObj = setInterval( function(){
+				update_board();
+				draw_game_board();}
+			, 150 - (5 * level) );
+	  }
     initialize();
 		return this
 }
 
 module.exports ={
-	"init" : function(){
-	  T = TETRIS(stream, strand, score_callback);
+	"init" : function(colors){
+	  T = TETRIS(stream, strand, colors, score_callback);
+		return T
+	},
+	"breakInterval": function(){
+		console.log(intervalObj)
+		clearInterval(intervalObj);
+	},
+	"interval" : function(){
+		return intervalObj;
 	},
 	"move" :  function(direction){
 		switch(direction){
@@ -347,5 +355,5 @@ module.exports ={
 					T.rotate_shape();
 					break;
 				} //switch
-		} // move
+		},
 } // export
