@@ -13,17 +13,17 @@ var HEIGHT = npm_opc.height
 var strand = npm_opc.strand
 var columns = npm_opc.columns
 var stream = npm_opc.stream
-var intervalObj = null
+var intervalObj = []
 score_callback = function(sq, line, level){
 	console.log("score updated", sq, line, level);
 }
 
-TETRIS = function Tetris(stream, strand, colors, score_callback) {
+TETRIS = function Tetris(stream, strand, player, score_callback) {
     var width = WIDTH,
         height = HEIGHT,
-        fill_r = colors[0][0],
-        fill_g = colors[0][1],
-        fill_b = colors[0][2],
+        fill_r = 0,
+        fill_g = 0,
+        fill_b = 0,
         board_r = 0,
         board_g = 0,
         board_b = 0,
@@ -34,6 +34,9 @@ TETRIS = function Tetris(stream, strand, colors, score_callback) {
         level,
         score,
         lines;
+
+		if(player == "BLUE"){ fill_b = 255}
+		if(player == "RED"){ fill_r = 255}
 
     var BLOCK_EMPTY = 0,
         BLOCK_FULL = 1,
@@ -132,7 +135,7 @@ TETRIS = function Tetris(stream, strand, colors, score_callback) {
     function add_shape() {
       active_shape = pending_shape;
       active_shape.x = parseInt(width / 2 - 2);
-      active_shape.y = 0;
+      active_shape.y = parseInt(height/2);
 
       pending_shape = new Shape();
       pending_shape.initialize();
@@ -267,31 +270,37 @@ TETRIS = function Tetris(stream, strand, colors, score_callback) {
         move_down();
     }
 
-    function draw_game_board() {
-      for (var y = 0; y < height; y++)
-        for (var x = 0; x < width; x++)
-          draw_block(x, y, board_r, board_g, board_b);
+		function draw_game_board() {
+		      for (var y = parseInt(height/2); y < height; y++)
+		        for (var x = 0; x < width; x++)
+		          draw_block(x, y, board_r, board_g, board_b);
 
-      for (var y = 0; y < height; y++)
-        for (var x = 0; x < width; x++)
-          if (board[y][x] == BLOCK_FULL || board[y][x] == BLOCK_ACTIVE)
-            draw_block(x, y, fill_r, fill_g, fill_b);
+		      for (var y = parseInt(height/2); y < height; y++)
+		        for (var x = 0; x < width; x++)
+		          if (board[y][x] == BLOCK_FULL || board[y][x] == BLOCK_ACTIVE){
+		            draw_block(x, y, fill_r, fill_g, fill_b);
+							}
+		      for (var y = 0; y < 4; y++)
+		        for (var x = 0; x < 4; x++) {
+		          var dx = x + active_shape.x,
+		              dy = y + active_shape.y;
+		          if (active_shape.shape[y][x] == BLOCK_FULL)
+		            draw_block(dx, dy, fill_r, fill_g, fill_b);
+		        }
 
-      for (var y = 0; y < 4; y++)
-        for (var x = 0; x < 4; x++) {
-          var dx = x + active_shape.x,
-              dy = y + active_shape.y;
-          if (active_shape.shape[y][x] == BLOCK_FULL)
-            draw_block(dx, dy, fill_r, fill_g, fill_b);
-        }
+		      stream.writePixels(0, strand.buffer);
+		}
 
-      stream.writePixels(0, strand.buffer);
-
-      //t = setTimeout(function() { draw_game_board(); }, 30);
-    }
-
-    function draw_block(x, y, r, g, b) {
-      columns[x].setPixel(y,r,g,b);
+		function draw_block(x, y, r, g, b) {
+			console.log(y)
+			if(player == "RED"){
+				y = y - parseInt(height/2)
+			  columns[x].setPixel(y,r,g,b);
+			}
+			if(player == "BLUE"){
+				y = Math.abs( y - 3*parseInt(height/2) ) - 1
+				columns[x].setPixel(y,r,g,b);
+			}
     }
 
     function handleKeys(e) {
@@ -309,15 +318,9 @@ TETRIS = function Tetris(stream, strand, colors, score_callback) {
 
     function update_board() {
       move_down();
-      //t = setTimeout(function() { update_board(); }, 150 - (5 * level));
     }
 
     function initialize() {
-      // var canvas = document.getElementById(canvas_id);
-      // context = canvas.getContext('2d');
-
-      // create handlers
-      // document.onkeypress = function(e) { return handleKeys(e) };
       reset();
       intervalObj = setInterval( function(){
 				update_board();
@@ -329,10 +332,16 @@ TETRIS = function Tetris(stream, strand, colors, score_callback) {
 }
 
 module.exports ={
-	"init" : function(colors){
-	  T = TETRIS(stream, strand, colors, score_callback);
-		return T
-	},
+	"init" : function(){
+			redblue = [];
+			BLUE = TETRIS(stream, strand, "BLUE", score_callback);
+			redblue.push(BLUE);
+			//RED = TETRIS(stream, strand, "RED", score_callback);
+			//redblue.push(RED);
+			//T = TETRIS(stream, strand, colors, score_callback);
+			return redblue
+		},
+
 	"breakInterval": function(){
 		console.log(intervalObj)
 		clearInterval(intervalObj);
