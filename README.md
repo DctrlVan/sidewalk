@@ -16,22 +16,35 @@ It is best if following packages are installed globally
 
 `git clone https://github.com/DecentralVan/openpixelgui.git && cd openpixelgui`
 `sudo npm install`
+
+
 --- !!! There is a bug in the color-picker module !!! ---
 For some reason in /node_modules/color-picker/node_modules/*  
-the module files are mis-labelled. You have to edit the file
-names. i.e. 'emitter-component' changes to emitter, jquery can
-be removed completely from this submodule, use these commands:
+the module file names are incorrect. You have to edit the file
+names. i.e. 'emitter-component' changes to emitter. Use these commands:
+
 `mv node_modules/color-picker/node_modules/emitter-component/ node_modules/color-picker/node_modules/emitter`
+
 `sudo rm -rf node_modules/color-picker/node_modules/jquery-component`
 --- !!!!!!!!!!!!!!!!! ---------
 Then:
 
-`npm run localshow`    # start the localshow viewer on 7890
-`npm run compile`      # compile css/js bundles and start the server
+## Building a local open pixel display:
+If you want to run a sample LED display for testing you have to build the
+executable file from source with the following code:
 
-Open a browser to localhost:3456
+`apt-get install mesa-common-dev freeglut3-dev`
+`cd openpixelcontrol`
+`make`
+`cd ..`
+`npm run localshow`
+or `./openpixelcontrol/bin/gl_server -l <path-to-layout-json-file>`
 
-## local lightshow:
-you can launch a local light processor simulation using
-`./bin/gl_server -l sidewalk_layout.json
-opc data can now be directed to localhost:22000
+You must make sure that the port the localshow is running on is
+the same as the port being connected to in opc_controller/opc_init.coffee.
+
+`npm run compile `           # compile css/js bundles and start the server
+
+When successfully running you will be able to access a website on
+localhost:3456 and actions there will be displayed on the localshow
+display.
