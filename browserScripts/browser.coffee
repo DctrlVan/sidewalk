@@ -37,10 +37,7 @@ $(document).ready ->
       url:'/startshow'
       data: submitDoc
       success: ->
-        $(@).text("~~~!!!active!!!~~~")
-        setTimeout ->
-          $(@).text(submitDoc["show"])
-        , 2000
+        null
 
   $(".tetrisButton").on "click" , (e)->
     e.preventDefault()
@@ -55,10 +52,7 @@ $(document).ready ->
         url:'/startshow'
         data: submitDoc
         success: ->
-          $(@).text("~~~!!!active!!!~~~")
-          setTimeout ->
-            $(@).text(submitDoc["show"])
-          , 2000
+          null
 
   $(".tetrisControls").on "click", "div", (e)->
     e.preventDefault()
