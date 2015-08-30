@@ -57,6 +57,23 @@ strip = (color,position, size)->
 			x++
 		y++
 
+arrow = (color,position)->
+	y = 0
+	while y < height
+		x = 0
+		while x < width
+			di = color
+			rel = y - position
+			if rel < 0
+				columns[parseInt width/2].setPixel y, di[1],di[0],di[2]
+			if x > rel and width - x > rel and rel > 0
+				columns[x].setPixel y, di[1],di[0],di[2]
+			else
+				columns[x].setPixel y,0,0,0
+			x++
+		y++
+
+
 splitSinWave = (color, position)->
 	y = 0
 	while y < height
@@ -86,7 +103,7 @@ sinShow = (colors)->
 			if j > 1000 then j = 0
 	, 200
 
-waveShow = (colors, size, speed)->
+waveShow = (colors, speed)->
 	l = colors.length
 	j = 0
 	c = 0
@@ -95,7 +112,7 @@ waveShow = (colors, size, speed)->
 		if position == height - 1
 			c++
 		ci = c%l
-		strip(colors[ci], position, size)
+		arrow(colors[ci], position)
 		stream.writePixels(0, strand.buffer)
 		j++
 		if j > 1000 then j = 0

@@ -32,7 +32,7 @@ WebServer.listen port, ->
       when "Rave Lights"
         lightshow = shows.flashShow req.body.colorArray, .19, 111
       when "Waves"
-        lightshow = shows.waveShow req.body.colorArray, 3, 25
+        lightshow = shows.waveShow req.body.colorArray, 25
       when "Chill"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
