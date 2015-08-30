@@ -284,9 +284,36 @@ alphabet =
   ]
 
 
-horizontalLetter = (Yposition, Xposition ,letter, r, g, b)->
+# Create full height letters # 
+alphabet10x10 = []
+create10x10alpha = ()->
+  for letter, pixelArray of alphabet
+    newLetter = []
+    for columnArray, Yindex in pixelArray
+      newRow = []
+      for pixel, Xindex in columnArray
+        newRow.push pixel
+        newRow.push pixel
+      newLetter.push newRow
+      newLetter.push newRow
+    alphabet10x10[letter] = newLetter
+create10x10alpha()
+
+
+horizontalLetter5x5 = (Yposition, Xposition ,letter, r, g, b)->
   if alphabet[letter]?
     for columnArray, Yindex in alphabet[letter]
+      for pixel, Xindex in columnArray
+        j = Yindex + Yposition
+        i = Xindex + Xposition
+        if pixel==1
+          columns[j].setPixel(i,r,g,b)
+        else
+          columns[j].setPixel(i,0,0,0)
+
+horizontalLetter10x10 = (Yposition, Xposition ,letter, r, g, b)->
+  if alphabet[letter]?
+    for columnArray, Yindex in alphabet10x10[letter]
       for pixel, Xindex in columnArray
         j = Yindex + Yposition
         i = Xindex + Xposition
@@ -305,12 +332,13 @@ verticalLetter = (Yposition, Xposition ,letter, r, g, b)->
       else
         columns[j].setPixel(i,0,0,0)
 
-topHorizontalWord = (start, word, r, g, b)->
+topHorizontalWord = (start, word, colors)->
   x = 1
   for letter, index in word
-    y = (start + (6*index)) % 57
+    ci = index % colors.length
+    y = (start + (12*index)) % 51
     if y > 0
-      horizontalLetter(x,y,letter,r,g,b)
+      horizontalLetter10x10(x,y,letter,colors[ci][0],colors[ci][1],colors[ci][2])
 
 #NINE LETTER MAX
 # This banner loops forwards wraps word
@@ -323,30 +351,30 @@ shortBanner = (word, r, g, b)->
     start++
   , 323
 
-longBanner = (phrase, r, g, b)->
-  start = 57
+longBanner = (phrase, colors)->
+  start = 50
   i = 0
   j = 0
   k = 0
   word = phrase[0]
   setInterval ->
-    topHorizontalWord(start,word,200,33,50)
+    topHorizontalWord(start,word, colors)
     stream.writePixels(0, strand.buffer);
     ledUtil.clear()
-    if i % 6 == 0
-      if start < 0 then start += 6
+    if i % 12 == 0
+      if start < 0 then start += 12
       j++
-      min = Math.max 0 , j-10
+      min = Math.max 0 , j-5
       word = phrase[ min ... j ]
       if word.length == 0
-          start = 57
+          start = 50
           i = 0
           j = 0
           k = 0
           word = phrase[0]
     i++
     start--
-  , 300
+  , 33
 
 ###
 longBanner = (phrase, r, g, b)->

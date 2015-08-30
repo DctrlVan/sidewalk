@@ -74,15 +74,19 @@ arrow = (color,position)->
 		y++
 
 
-splitSinWave = (color, position)->
+splitSinWave = (color1,color2, position)->
 	y = 0
 	while y < height
 		x = 0
 		while x < width
-			di = color
-			xx = (6.5 * Math.sin((y + position)/5) + 6.5)
-			if -.5 < xx - x < .5
-				columns[x].setPixel y, di[0],di[1],di[2]
+			di1 = distort color1
+			di2 = distort color2
+			cosx = (6.5 * Math.cos((y + position)/5) + 6.5)
+			sinx = (6.5 * Math.sin((y + position)/5) + 6.5)
+			if -.5 < cosx - x < .5
+				columns[x].setPixel y, di1[0],di1[1],di1[2]
+			else if -.5 < sinx - x < .5
+				columns[x].setPixel y, di2[0],di2[1],di2[2]
 			else
 				columns[x].setPixel y,0,0,0
 			x++
@@ -93,8 +97,8 @@ sinShow = (colors)->
 	j = 0
 	position = 0
 	setInterval ->
-		ci = j%l
-		splitSinWave(colors[ci], position)
+		ci = j%(l-1)
+		splitSinWave(colors[ci],colors[ci+1] , position)
 		stream.writePixels(0, strand.buffer)
 		position++
 		if position > 1000 then position = 0
@@ -103,7 +107,7 @@ sinShow = (colors)->
 			if j > 1000 then j = 0
 	, 200
 
-waveShow = (colors, speed)->
+arrowShow = (colors, speed)->
 	l = colors.length
 	j = 0
 	c = 0
@@ -138,4 +142,4 @@ flashShow = (colors, fill, speed)->
 cycleShows = ->
 	#
 
-module.exports = { rainbowShow, flashShow , waveShow, sinShow, cycleShows}
+module.exports = { rainbowShow, flashShow , arrowShow, sinShow, cycleShows}

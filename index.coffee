@@ -27,13 +27,13 @@ WebServer.listen port, ->
     if !req.body.colorArray?
       req.body.colorArray = [[255,0,0],[0,255,0],[0,0,255]]
     switch req.body.show
-      when "Rainbow Rows"
+      when "Chill"
         lightshow = shows.rainbowShow req.body.colorArray, .33, 1111
       when "Rave Lights"
         lightshow = shows.flashShow req.body.colorArray, .19, 111
-      when "Waves"
-        lightshow = shows.waveShow req.body.colorArray, 25
-      when "Chill"
+      when "Arrows"
+        lightshow = shows.arrowShow req.body.colorArray, 25
+      when "DNA"
         lightshow = shows.sinShow req.body.colorArray
       when "Tetris"
         localshow = tetris.interval()
@@ -41,7 +41,7 @@ WebServer.listen port, ->
       when "Cycle"
         lightshow = cycleShows()
       when "Banner"
-        lightshow = writer.longBanner req.body.banner.toUpperCase(), 255,0,0
+        lightshow = writer.longBanner req.body.banner.toUpperCase(), req.body.colorArray
     res.sendStatus 200
 
   WebServer.get '/tetris/:direction', (req,res) ->
@@ -65,10 +65,10 @@ indexTemplate = ->
         div class:"picker", ->
           button class:"clearcolor btn btn-default btn-md","Reset"
     div class:'submitButtons', ->
-      button class:'btn btn-primary btn-lg col-xs-6',  "Rainbow Rows"
-      button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
-      button class:'btn btn-primary btn-lg col-xs-6',  "Waves"
       button class:'btn btn-primary btn-lg col-xs-6',  "Chill"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Rave Lights"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Arrows"
+      button class:'btn btn-primary btn-lg col-xs-6',  "DNA"
       button class:'btn btn-primary btn-lg col-xs-6',  "Banner"
       div class:'col-xs-6', ->
         input class:'banner', type:'text'
