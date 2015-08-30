@@ -12,5 +12,5 @@ for c in cols
 json = JSON.stringify lines
 
 # From the command line, create a layout by
-# use coffee <this file>  >  <destinationFile>.json
+# use coffee <this file>  >  <destinationJsonFile>
 console.log json

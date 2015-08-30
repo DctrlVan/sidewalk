@@ -283,8 +283,7 @@ alphabet =
     [0,1,1,1,0]
   ]
 
-
-# Create full height letters # 
+# Create full height letters #
 alphabet10x10 = []
 create10x10alpha = ()->
   for letter, pixelArray of alphabet
