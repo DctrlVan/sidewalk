@@ -57,8 +57,9 @@ $(document).ready ->
   $(".tetrisControls").on "click", "div", (e)->
     e.preventDefault()
     direction = $(@).attr('class')
+    player = $(@).parent().attr('class').split(" ")[2]
     $.ajax
       type:'GET'
-      url:"tetris/#{direction}"
+      url:"tetris/#{player}/#{direction}"
       success: ->
         null

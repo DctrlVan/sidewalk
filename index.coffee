@@ -44,9 +44,12 @@ WebServer.listen port, ->
         lightshow = writer.longBanner req.body.banner.toUpperCase(), req.body.colorArray
     res.sendStatus 200
 
-  WebServer.get '/tetris/:direction', (req,res) ->
+  WebServer.get '/tetris/:player/:direction', (req,res) ->
     movement = String req.params.direction.split(" ")[0]
-    tetris.move movement
+    if req.params.player == "red"
+      tetris.redMove movement
+    if req.params.player == "blue"
+      tetris.blueMove movement
     res.sendStatus 200
 
 indexTemplate = ->
@@ -74,7 +77,16 @@ indexTemplate = ->
         input class:'banner', type:'text'
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
-    div class:'tetrisControls col-xs-12', ->
+    div class:'tetrisControls col-xs-12 red', ->
+      div class:'ROTATE' , ->
+        i class:"glyphicon glyphicon-refresh col-xs-12"
+      div class:'LEFT' , ->
+        i class:"glyphicon glyphicon-arrow-left col-xs-6"
+      div class:'RIGHT', ->
+        i class:"glyphicon glyphicon-arrow-right col-xs-6"
+      div class: 'DOWN' , ->
+        i class:"glyphicon glyphicon-arrow-down col-xs-12"
+    div class:'tetrisControls col-xs-12 blue', ->
       div class:'ROTATE' , ->
         i class:"glyphicon glyphicon-refresh col-xs-12"
       div class:'LEFT' , ->

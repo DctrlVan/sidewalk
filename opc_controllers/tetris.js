@@ -270,7 +270,7 @@ TETRIS = function Tetris(stream, strand, player, score_callback) {
         move_down();
     }
 
-		function draw_game_board() {
+		this.draw_game_board = function() {
 		      for (var y = parseInt(height/2); y < height; y++)
 		        for (var x = 0; x < width; x++)
 		          draw_block(x, y, board_r, board_g, board_b);
@@ -292,7 +292,6 @@ TETRIS = function Tetris(stream, strand, player, score_callback) {
 		}
 
 		function draw_block(x, y, r, g, b) {
-			console.log(y)
 			if(player == "RED"){
 				y = y - parseInt(height/2)
 			  columns[x].setPixel(y,r,g,b);
@@ -316,32 +315,35 @@ TETRIS = function Tetris(stream, strand, player, score_callback) {
       return true;
     }
 
-    function update_board() {
-      move_down();
+    this.update_board = function() {
+      this.move_down();
     }
 
     function initialize() {
       reset();
-      intervalObj = setInterval( function(){
-				update_board();
-				draw_game_board();}
-			, 150 - (5 * level) );
 	  }
     initialize();
 		return this
 }
 
+var RED = null
+var BLUE = null
+
 module.exports ={
 	"init" : function(){
 			redblue = [];
-			BLUE = TETRIS(stream, strand, "BLUE", score_callback);
+			BLUE = new TETRIS(stream, strand, "BLUE", score_callback);
 			redblue.push(BLUE);
-			//RED = TETRIS(stream, strand, "RED", score_callback);
-			//redblue.push(RED);
-			//T = TETRIS(stream, strand, colors, score_callback);
+			RED = new TETRIS(stream, strand, "RED", score_callback);
+			redblue.push(RED);
+			intervalObj = setInterval( function(){
+				RED.update_board();
+				RED.draw_game_board();
+				BLUE.update_board();
+				BLUE.draw_game_board();}
+			, 150 );
 			return redblue
 		},
-
 	"breakInterval": function(){
 		console.log(intervalObj)
 		clearInterval(intervalObj);
@@ -349,20 +351,36 @@ module.exports ={
 	"interval" : function(){
 		return intervalObj;
 	},
-	"move" :  function(direction){
+	"redMove" :  function(direction){
 		switch(direction){
 			case "LEFT":
-				  T.move_left();
+				  RED.move_left();
 					break;
 			case "RIGHT":
-					T.move_right();
+					RED.move_right();
 					break;
 			case "DOWN":
-					T.move_down();
+					RED.move_down();
 					break;
 			case "ROTATE":
-					T.rotate_shape();
+					RED.rotate_shape();
 					break;
 				} //switch
 		},
+	"blueMove" :  function(direction){
+			switch(direction){
+				case "LEFT":
+					  BLUE.move_left();
+						break;
+				case "RIGHT":
+						BLUE.move_right();
+						break;
+				case "DOWN":
+						BLUE.move_down();
+						break;
+				case "ROTATE":
+						BLUE.rotate_shape();
+						break;
+					} //switch
+			},
 } // export

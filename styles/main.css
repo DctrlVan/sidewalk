@@ -64,3 +64,11 @@ input.banner{
 	width: 100%;
 	padding:1em;
 }
+
+.red{
+	background:red;
+}
+
+.blue{
+	background:blue;
+}
