@@ -41,6 +41,8 @@ WebServer.listen port, ->
       when "Cycle"
         lightshow = cycleShows()
       when "Banner"
+        if !req.body.banner?
+          req.body.banner = "banner"
         lightshow = writer.longBanner req.body.banner.toUpperCase(), req.body.colorArray
     res.sendStatus 200
 
