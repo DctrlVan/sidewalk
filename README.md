@@ -26,20 +26,30 @@ names. i.e. 'emitter-component' changes to emitter. Use these commands:
 
 `mv node_modules/color-picker/node_modules/emitter-component/ node_modules/color-picker/node_modules/emitter`
 
-`sudo rm -rf node_modules/color-picker/node_modules/jquery-component`
+`sudo rm -rf node_modules/color-picker/node_modules/jquery-component`        
+           
 --- !!!!!!!!!!!!!!!!! ---------
-
+               
+`npm run compile`           # compile css/js bundles and start the server
+               
 
 ## Create a Localshow:
 If you want to run a sample LED display for testing you have to build the
 executable file from openpixelcontrol source (which is included in this repo) with the following code:
 
-`sudo apt-get install mesa-common-dev freeglut3-dev`
-`cd openpixelcontrol`  :: move into the /sidewalk/openpixelcontrol/ folder  
-`make`
-`npm run localshow`
+:: you need these dependencies to run the build::        
+`sudo apt-get install mesa-common-dev freeglut3-dev`        
 
-or to specify another layout file:  `./sidewalk/bin/gl_server -l <path-to-layout-json-file>`
+:: move into the /sidewalk/openpixelcontrol/ folder and run make       
+`cd openpixelcontrol`  
+`make`
+
+:: run the openpixel localshow using my npm script
+`npm run localshow`
+            
+or run the executable directly and have the option to specify another layout file:          
+`./sidewalk/bin/gl_server -l <path-to-layout-json-file>`      
+         
 
 You must make sure that the port the localshow is running on is
 the same as the port being connected to in opc_controller/opc_init.coffee.
