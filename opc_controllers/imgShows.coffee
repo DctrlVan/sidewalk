@@ -34,7 +34,7 @@ runShow = (showName)->
 			while x < width
 				di = shows[showName][frame][pixel]
 				if di?
-					columns[x].setPixel y, di[0],di[1],di[2]
+					columns[x].setPixel y, di[1],di[0],di[2]
 					pixel++
 				x++
 			y--
