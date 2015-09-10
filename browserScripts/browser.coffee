@@ -31,6 +31,7 @@ $(document).ready ->
     submitDoc["show"] = $(@).text()
     submitDoc["colorArray"] = colors
     submitDoc["banner"] = $('.banner').val()
+    submitDoc["imgShow"] = $('.imgShow').val()
     console.log submitDoc
     $.ajax
       type:'POST'

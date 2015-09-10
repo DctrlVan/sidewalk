@@ -10,6 +10,7 @@ port=3456
 shows = require "./opc_controllers/shows.coffee"
 tetris = require "./opc_controllers/tetris.js"
 writer = require "./opc_controllers/alphabet.coffee"
+gallery = require "./opc_controllers/imgShows.coffee"
 
 lightshow = null
 
@@ -40,6 +41,8 @@ WebServer.listen port, ->
         T = tetris.init  req.body.colorArray
       when "Cycle"
         lightshow = cycleShows()
+      when "Play Show"
+        lightshow = gallery.runShow req.body.imgShow
       when "Banner"
         if req.body.banner == ""
           req.body.banner = "banner"
@@ -77,6 +80,10 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Banner"
       div class:'col-xs-6', ->
         input class:'banner', type:'text'
+      button class:'btn btn-primary btn-lg col-xs-6',  "Play Show"
+      select class:'col-xs-6 imgShow', ->
+        for show, frames of gallery.showNames
+          option show
     button class:'tetrisButton btn btn-primary btn-lg col-xs-12', ->
       text 'Tetris'
     div class:'tetrisControls col-xs-12 red', ->
@@ -100,6 +107,6 @@ indexTemplate = ->
 
   script src:"bundle.js"
 
-indexHtml = ck.render indexTemplate
+indexHtml = ck.render indexTemplate, locals:{gallery}
 
 WebServer.use(express.static 'public')

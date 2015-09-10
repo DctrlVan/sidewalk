@@ -7,12 +7,12 @@ columns = npm_opc.columns
 stream = npm_opc.stream
 
 #list the names of the shows here, and the the number of frames:
-gifShowNames =
+showNames =
 	orangeDot:10
 
 shows = {}
 
-for showName, frames of gifShowNames
+for showName, frames of showNames
 	i = 1
 	shows[showName] = []
 	while i <= frames
@@ -22,7 +22,7 @@ for showName, frames of gifShowNames
 ledUtil = require "./led_util.coffee"
 frame = 0
 
-runShow = (showName , speed)->
+runShow = (showName)->
 	showLength = shows[showName].length
 	console.log 'showlength:    ' , showLength
 	frame = 0
@@ -41,8 +41,8 @@ runShow = (showName , speed)->
 		frame = (frame + 1) % showLength
 		stream.writePixels(0, strand.buffer)
 		ledUtil.clear()
-	, speed
+	, 33
 
-runShow 'orangeDot', 25
+#runShow 'orangeDot', 25
 
-module.exports = { gifShowNames }
+module.exports = { showNames , runShow }
