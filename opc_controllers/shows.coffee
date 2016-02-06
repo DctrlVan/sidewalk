@@ -57,17 +57,45 @@ strip = (color,position, size)->
 			x++
 		y++
 
+arrowShow = (colors, speed)->
+
+	l = colors.length
+	j = 0
+	c = 0
+	# Interval repeats the function forever with the delay
+	drawArrow = ->
+		position = j%height
+		if position == height - 1
+			c++
+		ci = c%l
+		arrow(colors[ci], position)
+		stream.writePixels(0, strand.buffer)
+		j++
+		if j > 1000 then j = 0
+
+	setInterval(drawArrow, speed) #delay
+
+# Draws the whole arrow at position with color
 arrow = (color,position)->
+	## set initial y location
 	y = 0
+	## run loop while y is within the height(length) of the sidewalk
 	while y < height
+		## set x to 0
 		x = 0
+		## run loop while x is within the bounds of the width of the sidewalk
 		while x < width
+
 			di = color
 			rel = y - position
+
+			# Less than the bottom of the arrow (draw line)
 			if rel < 0
 				columns[parseInt width/2].setPixel y, di[1],di[0],di[2]
+			# Draws the triangle
 			if x > rel and width - x > rel and rel > 0
 				columns[x].setPixel y, di[1],di[0],di[2]
+			# if we are in front of the tip of the arrow
 			else
 				columns[x].setPixel y,0,0,0
 			x++
@@ -107,20 +135,7 @@ sinShow = (colors)->
 			if j > 1000 then j = 0
 	, 200
 
-arrowShow = (colors, speed)->
-	l = colors.length
-	j = 0
-	c = 0
-	setInterval ->
-		position = j%height
-		if position == height - 1
-			c++
-		ci = c%l
-		arrow(colors[ci], position)
-		stream.writePixels(0, strand.buffer)
-		j++
-		if j > 1000 then j = 0
-	, speed
+
 
 rainbowShow = (colors,fill,speed)->
 	setInterval ->
