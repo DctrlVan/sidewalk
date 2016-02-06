@@ -16,6 +16,7 @@
     "coffeekup": "^0.3.1",
     "color-picker": "0.0.1",
     "express": "^4.13.1",
+    "gulp": "^3.9.0",
     "jquery": "^2.1.4",
     "opc": "^1.1.2"
   },

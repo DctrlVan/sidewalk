@@ -101,16 +101,30 @@ arrow = (color,position)->
 			x++
 		y++
 
+cosOffset = 0
+sinOffset = 0
 
+cosHeightOffset = 1
 splitSinWave = (color1,color2, position)->
+	cosOffset++
+	sinOffset++; sinOffset++;
+	cosOffset = 0 if cosOffset > 10000
+	sinOffset = 0 if cosOffset < -10000
+
+
+	cosHeightOffset-= 0.05 if Math.random() < .6
+	cosHeightOffset+= 0.05 if Math.random() > .4
+	cosHeightOffset = 1 if cosHeightOffset <= -1
+
+	console.log cosHeightOffset
 	y = 0
 	while y < height
 		x = 0
 		while x < width
 			di1 = distort color1
 			di2 = distort color2
-			cosx = (6.5 * Math.cos((y + position)/5) + 6.5)
-			sinx = (6.5 * Math.sin((y + position)/5) + 6.5)
+			cosx = (6.5 * Math.cos((y + position + cosOffset)/5) + 6.5*cosHeightOffset )
+			sinx = (6.5 * Math.sin((y + position + sinOffset)/5) + 6.5)
 			if -.5 < cosx - x < .5
 				columns[x].setPixel y, di1[0],di1[1],di1[2]
 			else if -.5 < sinx - x < .5
