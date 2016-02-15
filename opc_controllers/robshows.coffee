@@ -94,34 +94,38 @@ clear_sidewalk = () ->
 
 ## 3 colour grad length
 grad_long = ()->
-	i = 0
-	while i < height
-		red = 255 - 255 * Math.abs((height / 3) - i ) / ( height / 3 )
-		if red < 0
-			red = 0
-		if i < (height * 2 / 3)
-			green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
-		if i > (height * 2 / 3)
-			green = 255 - 255 * (i - (2 * height / 3)) / (height / 3)
-		if green < 0
-			green = 0
-		## green = 255 - 255 * Math.abs((height * 2 / 3) - i ) / ( height / 3 )
-		if i < height / 3
-			blue = 255 - 255 * i / (height / 3)
-		if i > 2 * height / 3
-			blue = 255 - 255 * (height - i) / (height / 3)
-		## not [R, G, B] but [G, R, B]
-		## to make the
+	p = 0
+	setInterval ->
+		i = 0
+		while i < height
+			red = 255 - 255 * Math.abs((height / 3) - i ) / ( height / 3 )
+			if red < 0
+				red = 0
+			if i < (height * 2 / 3)
+				green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
+			if i > (height * 2 / 3)
+				green = 255 - 255 * (i - (2 * height / 3)) / (height / 3)
+			if green < 0
+				green = 0
+			## green = 255 - 255 * Math.abs((height * 2 / 3) - i ) / ( height / 3 )
+			if i < height / 3
+				blue = 255 - 255 * i / (height / 3)
+			if i > 2 * height / 3
+				blue = 255 - 255 * (height - i) / (height / 3)
+			## not [R, G, B] but [G, R, B]
+			## to make the
 
-		## to make one width line
-		j = 0
-		while j < width
-			columns[j].setPixel(i, green, red, blue)
-			j++
-		i++
-	stream.writePixels(0, strand.buffer)
-
+			## to make one width line
+			j = 0
+			while j < width
+				columns[j].setPixel((i + p)%62, green, red, blue)
+				j++
+			i++
+		stream.writePixels(0, strand.buffer)
+		p++
+	, 40
 clear_sidewalk()
+
 grad_long()
 
 sinShow = (colors)->
