@@ -93,7 +93,7 @@ clear_sidewalk = () ->
 		y++
 
 ## 3 colour grad length
-grad_long = ()->
+module.exports.grad_long = ()->
 	p = 0
 	setInterval ->
 		i = 0
@@ -124,9 +124,7 @@ grad_long = ()->
 		stream.writePixels(0, strand.buffer)
 		p++
 	, 40
-clear_sidewalk()
 
-grad_long()
 
 sinShow = (colors)->
 	l = colors.length

@@ -8,6 +8,7 @@ urlencodedParser = bodyParser.urlencoded({ extended: true })
 port=3456
 
 shows = require "./opc_controllers/shows.coffee"
+robShows = require "./opc_controllers/robshows.coffee"
 tetris = require "./opc_controllers/tetris.js"
 writer = require "./opc_controllers/alphabet.coffee"
 gallery = require "./opc_controllers/imgShows.coffee"
@@ -36,6 +37,8 @@ WebServer.listen port, ->
         lightshow = shows.arrowShow req.body.colorArray, 25
       when "DNA"
         lightshow = shows.sinShow req.body.colorArray
+      when "Rainbow"
+        lightshow = robShows.grad_long()
       when "Tetris"
         localshow = tetris.interval()
         T = tetris.init  req.body.colorArray
@@ -78,6 +81,7 @@ indexTemplate = ->
       button class:'btn btn-primary btn-lg col-xs-6',  "Arrows"
       button class:'btn btn-primary btn-lg col-xs-6',  "DNA"
       button class:'btn btn-primary btn-lg col-xs-6',  "Banner"
+      button class:'btn btn-primary btn-lg col-xs-6',  "Rainbow"
       div class:'col-xs-6', ->
         input class:'banner', type:'text'
       button class:'btn btn-primary btn-lg col-xs-6',  "Play Show"
