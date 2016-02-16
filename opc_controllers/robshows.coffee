@@ -108,13 +108,13 @@ module.exports.grad_long = ()->
 				green = 0
 				red = 255 - 255 * ((height / 3) - i) / (height / 3)
 				blue = 255 - 255 * i / (height / 3)
-			## sets g, r, b if 'i' is within the middle 3rd of the board
+				## sets g, r, b if 'i' is within the middle 3rd of the board
 			else if i < 2 * height / 3
-			  green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
+				green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
 				red = 255 - 255 * (i - (height / 3)) / (height / 3)
-				blue = 0
+				blue = 0;
 			else
-			## sets g, r, b if 'i' is within the final 3rd of the board
+				## sets g, r, b if 'i' is within the final 3rd of the board
 				green = 255 - 255 * (i - (2 * height / 3)) / (height / 3)
 				red = 0
 				blue  = 255 - 255 * (height - i) / (height / 3)
@@ -140,7 +140,35 @@ Bouncing_Ball = ()->
 	## set start position of centre point of ball x is distance along width, y is distance along height
 	x = 3
 	y = 3
-
+	Draw_ball = ()->
+		## loop through all pixels along height
+		i = 0
+		while i < height
+			## loop through all pixels along width
+			j = 0
+			while j < width
+				## set all pixels which are not within 1.4 in height and width directions of centre of ball to off
+				if Math.abs(y - i) > 1.4 or Math.abs(x - j) > 1.4
+					c = [0, 0, 0]
+				else
+					## measure distance of the pixel from the centre of the ball
+					dist = Math.sqrt((x - j)**2 + (y - i)**2)
+					## for pixels within 0.7 pixels of centre of ball set at full brightness
+					if dist <= 0.7
+						c = [180, 180, 180]
+					## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
+					## depending on distance away from centre
+					else if dist <= 1.4
+						c1 = 180 - 180 * ( dist - 0.7 ) / 0.7
+						c = [c1, c1, c1]
+					## if pixel is not within 1.4 pixels of centre of ball set to zero light
+					else c = [0, 0, 0]
+				## set the pixel for its colour
+				console.log i, j
+				columns[j].setPixel(i, c[0], c[1], c[2])
+				j++
+			i++
+		stream.writePixels(0, strand.buffer)
 	## set the x and y vectors for how much to move per cycle
 	xvect = 0.3
 	yvect = 0.5
@@ -162,36 +190,10 @@ Bouncing_Ball = ()->
 
 	, 50
 
+Bouncing_Ball()
 ## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
 ## if within 2 pixels use pythagoris to scale brightness
-Draw_ball = ()->
-	## loop through all pixels along height
-	i = 0
-	while i < height
-		## loop through all pixels along width
-		j = 0
-		while j < width
-			## set all pixels which are not within 1.4 in height and width directions of centre of ball to off
-			if Math.abs(y - i) > 1.4 or Math.abs(x - j) > 1.4
-				c = [0, 0, 0]
-			else
-				## measure distance of the pixel from the centre of the ball
-				dist = Math.sqrt(square(x - j) + square(y - i))
-				## for pixels within 0.7 pixels of centre of ball set at full brightness
-				if dist <= 0.7
-					c = [180, 180, 180]
-				## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
-				## depending on distance away from centre
-				else if dist <= 1.4
-					c1 = 180 - 180 * ( dist - 0.7 ) / 0.7
-					c = [c1, c1, c1]
-				## if pixel is not within 1.4 pixels of centre of ball set to zero light
-				else c = [0, 0, 0]
-			## set the pixel for its colour
-			columns[i].setPixel(j, c[0], c[1], c[2])
-			j++
-		i++
-	stream.writePixels(0, strand.buffer)
+
 
 # clear_sidewalk()
 # Bouncing_Ball()
