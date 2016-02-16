@@ -95,36 +95,40 @@ clear_sidewalk = () ->
 ## 3 colour grad length
 module.exports.grad_long = ()->
 	p = 0
+	## run this loop on an interval with time specified at end of the loop on same indent
 	setInterval ->
+		# set i to 0 to initiate loop at zero, i represents position along height
 		i = 0
+		## run for all positions 0 to height
 		while i < height
-			red = 255 - 255 * Math.abs((height / 3) - i ) / ( height / 3 )
-			if red < 0
-				red = 0
-			if i < (height * 2 / 3)
-				green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
-			if i > (height * 2 / 3)
-				green = 255 - 255 * (i - (2 * height / 3)) / (height / 3)
-			if green < 0
-				green = 0
-			## green = 255 - 255 * Math.abs((height * 2 / 3) - i ) / ( height / 3 )
+			## sets g, r, b if 'i' is within the first 3rd of the board
 			if i < height / 3
+				green = 0
+				red = 255 - 255 * ((height / 3) - i) / (height / 3)
 				blue = 255 - 255 * i / (height / 3)
-			if i > 2 * height / 3
-				blue = 255 - 255 * (height - i) / (height / 3)
-			## not [R, G, B] but [G, R, B]
-			## to make the
+			## sets g, r, b if 'i' is within the middle 3rd of the board
+			else if i < 2 * height / 3
+			  green = 255 - 255 * ((2 * height / 3) - i) / (height / 3)
+				red = 255 - 255 * (i - (height / 3)) / (height / 3)
+				blue = 0
+			else
+			## sets g, r, b if 'i' is within the final 3rd of the board
+				green = 255 - 255 * (i - (2 * height / 3)) / (height / 3)
+				red = 0
+				blue  = 255 - 255 * (height - i) / (height / 3)
 
-			## to make one width line
+			## sets the pixel using the green, red and blue values along the width of the board
 			j = 0
+			## executes loop for all pixels within the width
 			while j < width
+				## sets the pixel using the green, red and blue values along the width of the board
 				columns[j].setPixel((i + p)%62, green, red, blue)
 				j++
 			i++
 		stream.writePixels(0, strand.buffer)
+		## increases the p value, moving all pixels down 1 place along the height
 		p++
-	, 40
-
+	, 65 ## sets the interval in milliseconds for the loop
 
 sinShow = (colors)->
 	l = colors.length
