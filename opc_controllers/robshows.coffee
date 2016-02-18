@@ -181,22 +181,35 @@ Bouncing_Ball = ()->
 	xvect = 0.8
 	yvect = 0.4
 
+	## set acceleration vectors for x and y axis, for acceleration per cycle
+	xacc = 0.000
+	yacc = -0.000
+
 	setInterval ->
 		Draw_ball()
 
 		## ball bounce off width axis
 		if x < cushion
-			xvect = xvect * - 1
+			xvect = xvect * -1
+			xacc = xacc * -1
 		else if x > width - cushion
-			xvect = xvect * - 1
+			xvect = xvect * -1
+			xacc = xacc * -1
 		## ball bounce off height axis
 		if y < cushion
 			yvect = yvect * -1
+			yacc = yacc * -1
 		else if y > height - cushion
 			yvect = yvect * -1
+			yacc = yacc * -1
 
+		## change the centre of ball location based on xvect and yvect
 		x = x + xvect
 		y = y + yvect
+
+		## change the xvect and yvect values based on xacc and yacc
+		xvect = xvect + xacc
+		yvect = yvect + yacc
 
 	, 50
 
