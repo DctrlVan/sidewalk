@@ -138,8 +138,16 @@ module.exports.grad_long = ()->
 ## make a ball that moves through the environment based off a vector
 Bouncing_Ball = ()->
 	## set start position of centre point of ball x is distance along width, y is distance along height
-	x = 3
-	y = 3
+	x = 4.5
+	y = 4.5
+
+	# set cushion - distance off edge wall to bounce
+	# note, make sure start position(above) is within cushion
+	cushion = 4
+
+	# set ball size - diameter
+	ballsize = 6
+
 	Draw_ball = ()->
 		## loop through all pixels along height
 		i = 0
@@ -147,41 +155,44 @@ Bouncing_Ball = ()->
 			## loop through all pixels along width
 			j = 0
 			while j < width
-				## set all pixels which are not within 1.4 in height and width directions of centre of ball to off
-				if Math.abs(y - i) > 1.4 or Math.abs(x - j) > 1.4
+				## set all pixels which are not within 1/2 * ballsize in height and width directions of centre of ball to off
+				if Math.abs(y - i) > (ballsize / 2) or Math.abs(x - j) > (ballsize / 2)
 					c = [0, 0, 0]
 				else
 					## measure distance of the pixel from the centre of the ball
 					dist = Math.sqrt((x - j)**2 + (y - i)**2)
 					## for pixels within 0.7 pixels of centre of ball set at full brightness
-					if dist <= 0.7
+					if dist <= (ballsize / 4)
 						c = [180, 180, 180]
 					## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
 					## depending on distance away from centre
-					else if dist <= 1.4
-						c1 = 180 - 180 * ( dist - 0.7 ) / 0.7
+					else if dist <= (ballsize / 2)
+						c1 = 180 - 180 * ( dist - (ballsize / 4) ) / (ballsize / 4)
 						c = [c1, c1, c1]
 					## if pixel is not within 1.4 pixels of centre of ball set to zero light
-					else c = [0, 0, 0]
+					else
+						c = [0, 0, 0]
 				## set the pixel for its colour
 				columns[j].setPixel(i, c[0], c[1], c[2])
 				j++
 			i++
 		stream.writePixels(0, strand.buffer)
 	## set the x and y vectors for how much to move per cycle
-	xvect = 0.3
-	yvect = 0.5
+	xvect = 0.8
+	yvect = 0.4
 
 	setInterval ->
 		Draw_ball()
-		if x < 1
-			xvect = xvect * -1
-		else if x > width - 1
-			xvect = xvect * -1
 
-		if y < 1
+		## ball bounce off width axis
+		if x < cushion
+			xvect = xvect * - 1
+		else if x > width - cushion
+			xvect = xvect * - 1
+		## ball bounce off height axis
+		if y < cushion
 			yvect = yvect * -1
-		else if y > height - 1
+		else if y > height - cushion
 			yvect = yvect * -1
 
 		x = x + xvect
