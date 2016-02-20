@@ -164,7 +164,6 @@ Bouncing_Ball = ()->
 					## if pixel is not within 1.4 pixels of centre of ball set to zero light
 					else c = [0, 0, 0]
 				## set the pixel for its colour
-				console.log i, j
 				columns[j].setPixel(i, c[0], c[1], c[2])
 				j++
 			i++
@@ -195,5 +194,5 @@ Bouncing_Ball()
 ## if within 2 pixels use pythagoris to scale brightness
 
 
-# clear_sidewalk()
-# Bouncing_Ball()
+clear_sidewalk()
+Bouncing_Ball()
