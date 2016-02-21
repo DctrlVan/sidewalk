@@ -141,13 +141,20 @@ Bouncing_Ball = ()->
 	x = 4.5
 	y = 4.5
 
-	# set cushion - distance off edge wall to bounce
+	# set cushion - distance off edge wall at which centre of the ball will bounce
 	# note, make sure start position(above) is within cushion
 	cushion = 4
 
 	# set ball size - diameter
 	ballsize = 6
 
+	# set colours (0 - 255) for green, red, blue.
+	green = 180
+	red = 180
+	blue = 0
+
+	## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
+	## if within 2 pixels use pythagoris to scale brightness
 	Draw_ball = ()->
 		## loop through all pixels along height
 		i = 0
@@ -163,12 +170,12 @@ Bouncing_Ball = ()->
 					dist = Math.sqrt((x - j)**2 + (y - i)**2)
 					## for pixels within 0.7 pixels of centre of ball set at full brightness
 					if dist <= (ballsize / 4)
-						c = [180, 180, 180]
+						c = [green, red, blue]
 					## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
 					## depending on distance away from centre
 					else if dist <= (ballsize / 2)
-						c1 = 180 - 180 * ( dist - (ballsize / 4) ) / (ballsize / 4)
-						c = [c1, c1, c1]
+						clrgradient = ( dist - (ballsize / 4) ) / (ballsize / 4)
+						c = [green - green * clrgradient, red - red * clrgradient, blue - blue * clrgradient]
 					## if pixel is not within 1.4 pixels of centre of ball set to zero light
 					else
 						c = [0, 0, 0]
@@ -182,8 +189,8 @@ Bouncing_Ball = ()->
 	yvect = 0.4
 
 	## set acceleration vectors for x and y axis, for acceleration per cycle
-	xacc = 0.000
-	yacc = -0.000
+	xacc = 0.002
+	yacc = -0.005
 
 	setInterval ->
 		Draw_ball()
@@ -211,6 +218,9 @@ Bouncing_Ball = ()->
 		xvect = xvect + xacc
 		yvect = yvect + yacc
 
+		# optional line to increase ball size
+		ballsize = ballsize + 0.04
+
 	, 50
 
 Bouncing_Ball()
@@ -218,5 +228,5 @@ Bouncing_Ball()
 ## if within 2 pixels use pythagoris to scale brightness
 
 
-clear_sidewalk()
-Bouncing_Ball()
+# clear_sidewalk()
+# Bouncing_Ball()
