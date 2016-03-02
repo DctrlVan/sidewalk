@@ -141,17 +141,20 @@ Bouncing_Ball = ()->
 	x = 4.5
 	y = 4.5
 
+	r = 150; g = 30; b = 20
+	check = (x)->
+		if x < 1 or x > 254
+			x = 100
+			console.log 'reset ',x
+		console.log 'x is ', x
+		return x
+
 	# set cushion - distance off edge wall at which centre of the ball will bounce
 	# note, make sure start position(above) is within cushion
 	cushion = 4
 
 	# set ball size - diameter
 	ballsize = 6
-
-	# set colours (0 - 255) for green, red, blue.
-	green = 180
-	red = 180
-	blue = 0
 
 	## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
 	## if within 2 pixels use pythagoris to scale brightness
@@ -170,43 +173,24 @@ Bouncing_Ball = ()->
 					dist = Math.sqrt((x - j)**2 + (y - i)**2)
 					## for pixels within 0.7 pixels of centre of ball set at full brightness
 					if dist <= (ballsize / 4)
-						c = [green, red, blue]
-					## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
-					## depending on distance away from centre
-					else if dist <= (ballsize / 2)
-						clrgradient = ( dist - (ballsize / 4) ) / (ballsize / 4)
-						c = [green - green * clrgradient, red - red * clrgradient, blue - blue * clrgradient]
-					## if pixel is not within 1.4 pixels of centre of ball set to zero light
+
+						if Math.random() < .5 then r += 1 else r -= 1
+						if Math.random() < .5 then g += 1 else b -= 1
+						if Math.random() < .5 then b += 1 else b -= 1
+
+						console.log [r, g, b]
+						r = check r
+						g = check g
+						b = check b
+
+						c = [r,g,b]
+						console.log 'after check'
+						console.log c
 					else
 						c = [0, 0, 0]
 				## set the pixel for its colour
-				r = 150; g = 150; b = 150
-				if Math.random() < .5
-					r += 1
-				else
-					r -= 1
-				if Math.random() < .5
-					g += 1
-				else
-					b -= 1
-				if Math.random() < .5
-					b += 1
-				else
-					b -= 1
 
-				check254 = (x)-> if x > 253 then return 100 else	return x
-				r = check254 r
-				g = check254 g
-				b = check254 b
-
-				check0 = (x)->
-					if x < 0 then return 100
-					return x
-				r = check0 r
-				g = check0 g
-				b = check0 b
-				console.log 'setting pixel ', j , i
-				columns[j].setPixel(i, r, g, b)
+				columns[j].setPixel(i, c[1], c[0], c[2])
 				j++
 			i++
 		stream.writePixels(0, strand.buffer)
@@ -255,6 +239,7 @@ Bouncing_Ball = ()->
 
 	, 50
 
+console.log 'starting bouncing ball'
 Bouncing_Ball()
 ## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
 ## if within 2 pixels use pythagoris to scale brightness
