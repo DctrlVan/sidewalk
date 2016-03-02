@@ -124,7 +124,9 @@ module.exports.grad_long = ()->
 			## executes loop for all pixels within the width
 			while j < width
 				## sets the pixel using the green, red and blue values along the width of the board
-				columns[j].setPixel((i + p)%62, green, red, blue)
+
+				pixel = (i + p)%62
+				columns[j].setPixel(pixel, green, red, blue)
 				j++
 			i++
 		stream.writePixels(0, strand.buffer)
@@ -132,8 +134,7 @@ module.exports.grad_long = ()->
 		p++
 	, 65 ## sets the interval in milliseconds for the loop
 
-#clear_sidewalk()
-#grad_long()
+#module.exports.grad_long()
 
 ## make a ball that moves through the environment based off a vector
 Bouncing_Ball = ()->
@@ -227,10 +228,103 @@ Bouncing_Ball = ()->
 
 	, 50
 
-Bouncing_Ball()
+# Bouncing_Ball()
 ## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
 ## if within 2 pixels use pythagoris to scale brightness
 
 
 # clear_sidewalk()
 # Bouncing_Ball()
+
+Pong = ()->
+	## set start position of centre point of ball x is distance along width, y is distance along height
+	x = 4.5
+	y = 4.5
+
+	# set cushion - distance off edge wall at which centre of the ball will bounce
+	# note, make sure start position(above) is within cushion
+	cushion = 2
+
+	# set ball size - diameter
+	ballsize = 4
+
+	# set colours (0 - 255) for green, red, blue.
+	green = 0
+	red = 0
+	blue = 240
+
+	## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
+	## if within 2 pixels use pythagoris to scale brightness
+	Draw_ball = ()->
+		## loop through all pixels along height
+		i = 0
+		while i < height
+			## loop through all pixels along width
+			j = 0
+			while j < width
+				## set all pixels which are not within 1/2 * ballsize in height and width directions of centre of ball to off
+				if Math.abs(y - i) > (ballsize / 2) or Math.abs(x - j) > (ballsize / 2)
+					c = [0, 0, 0]
+				else
+					## measure distance of the pixel from the centre of the ball
+					dist = Math.sqrt((x - j)**2 + (y - i)**2)
+					## for pixels within 0.7 pixels of centre of ball set at full brightness
+					if dist <= (ballsize / 4)
+						c = [green, red, blue]
+					## for pixels between 0.7 and 1.4 pixels distance from centre of ball scale between full and zero
+					## depending on distance away from centre
+					else if dist <= (ballsize / 2)
+						clrgradient = ( dist - (ballsize / 4) ) / (ballsize / 4)
+						c = [green - green * clrgradient, red - red * clrgradient, blue - blue * clrgradient]
+					## if pixel is not within 1.4 pixels of centre of ball set to zero light
+					else
+						c = [0, 0, 0]
+				## set the pixel for its colour
+				columns[j].setPixel(i, c[0], c[1], c[2])
+				j++
+			i++
+		stream.writePixels(0, strand.buffer)
+	## set the x and y vectors for how much to move per cycle
+	xvect = 0.3
+	yvect = 0.7
+
+	## set acceleration vectors for x and y axis, for acceleration per cycle
+	#xacc = 0.002
+	#yacc = -0.005
+
+	setInterval ->
+		Draw_ball()
+
+		## ball bounce off width axis
+		if x < cushion
+			xvect = xvect * -1
+			xacc = xacc * -1
+			# below commented out to change colours when hits the wall
+			#store = blue
+			#blue = green
+			#green = store
+		else if x > width - cushion
+			xvect = xvect * -1
+			xacc = xacc * -1
+		## ball bounce off height axis
+		if y < cushion
+			yvect = yvect * -1
+			yacc = yacc * -1
+		else if y > height - cushion
+			yvect = yvect * -1
+			yacc = yacc * -1
+
+		## change the centre of ball location based on xvect and yvect
+		x = x + xvect
+		y = y + yvect
+
+		## change the xvect and yvect values based on xacc and yacc
+		#xvect = xvect + xacc
+		#yvect = yvect + yacc
+
+		# optional line to increase ball size
+		#ballsize = ballsize + 0.04
+
+	, 50
+
+Pong()
