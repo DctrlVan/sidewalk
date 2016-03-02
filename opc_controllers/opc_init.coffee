@@ -6,7 +6,7 @@ socket.setNoDelay()
 # socket.connect 22000
 
 # Set for sidewalk display - Uncomment below to pump to sidewalk
-socket.connect 7890, '192.168.1.99'
+socket.connect 7890, '192.168.1.230'
 
 createOPCStream = require "opc"
 stream = createOPCStream()

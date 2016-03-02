@@ -219,7 +219,11 @@ Bouncing_Ball = ()->
 		yvect = yvect + yacc
 
 		# optional line to increase ball size
-		ballsize = ballsize + 0.04
+		r = Math.random()
+		if r < 0.5
+			ballsize = ballsize + 0.05
+		else
+			ballsize = ballsize - 0.05
 
 	, 50
 
