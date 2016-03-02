@@ -180,7 +180,33 @@ Bouncing_Ball = ()->
 					else
 						c = [0, 0, 0]
 				## set the pixel for its colour
-				columns[j].setPixel(i, c[0], c[1], c[2])
+				r = 150; g = 150; b = 150
+				if Math.random() < .5
+					r += 1
+				else
+					r -= 1
+				if Math.random() < .5
+					g += 1
+				else
+					b -= 1
+				if Math.random() < .5
+					b += 1
+				else
+					b -= 1
+
+				check254 = (x)-> if x > 253 then return 100 else	return x
+				r = check254 r
+				g = check254 g
+				b = check254 b
+
+				check0 = (x)->
+					if x < 0 then return 100
+					return x
+				r = check0 r
+				g = check0 g
+				b = check0 b
+				console.log 'setting pixel ', j , i
+				columns[j].setPixel(i, r, g, b)
 				j++
 			i++
 		stream.writePixels(0, strand.buffer)
@@ -221,8 +247,10 @@ Bouncing_Ball = ()->
 		# optional line to increase ball size
 		r = Math.random()
 		if r < 0.5
+			console.log 'bigger'
 			ballsize = ballsize + 0.05
 		else
+			console.log 'smaller'
 			ballsize = ballsize - 0.05
 
 	, 50
