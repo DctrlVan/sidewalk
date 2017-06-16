@@ -27,7 +27,7 @@ WebServer.listen port, ->
     if cycle? then clearInterval cycle
     console.log "New show request: ", req.body
     if !req.body.colorArray?
-      req.body.colorArray = [[255,0,0],[0,255,0],[0,0,255]]
+      req.body.colorArray = [[49,253,0],[223,230,0],[232,33,124],[93,225,255],[177,38,255]]
     switch req.body.show
       when "Chill"
         lightshow = shows.rainbowShow req.body.colorArray, .33, 1111

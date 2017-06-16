@@ -326,5 +326,3 @@ Pong = ()->
 		#ballsize = ballsize + 0.04
 
 	, 50
-
-Pong()
