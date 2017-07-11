@@ -26,11 +26,20 @@ WebServer.listen port, ->
       tetris.breakInterval()
     if cycle? then clearInterval cycle
     console.log "New show request: ", req.body
+    magenta = [232,33,124]
+    blue = [93,225,255]
+    purple = [177,38,255]
+    green = [65,230,20]
+    yellow = [223,230,0]
+    white = [255,255,255]
+
     if !req.body.colorArray?
-      req.body.colorArray = [[49,253,0],[223,230,0],[232,33,124],[93,225,255],[177,38,255]]
+      # req.body.colorArray = [magenta,blue,purple, white]
+      req.body.colorArray = [magenta, green, purple, yellow]
+
     switch req.body.show
       when "Chill"
-        lightshow = shows.rainbowShow req.body.colorArray, .33, 1111
+        lightshow = shows.rainbowShow req.body.colorArray, .69, 1111
       when "Rave Lights"
         lightshow = shows.flashShow req.body.colorArray, .19, 111
       when "Arrows"

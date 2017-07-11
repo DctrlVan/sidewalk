@@ -9,7 +9,7 @@ stream = npm_opc.stream
 #list the names of the shows here, and the the number of frames:
 showNames =
 	orangeDot:10
-	decentral:25
+	decentral:9
 
 shows = {}
 
