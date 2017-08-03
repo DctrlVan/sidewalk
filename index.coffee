@@ -34,8 +34,8 @@ WebServer.listen port, ->
     white = [255,255,255]
 
     if !req.body.colorArray?
-      # req.body.colorArray = [magenta,blue,purple, white]
-      req.body.colorArray = [magenta, green, purple, yellow]
+      req.body.colorArray = [magenta,blue,purple, white]
+      # req.body.colorArray = [magenta, green, purple, yellow]
 
     switch req.body.show
       when "Chill"

@@ -236,22 +236,18 @@ Bouncing_Ball = ()->
 # clear_sidewalk()
 # Bouncing_Ball()
 
-Pong = ()->
+Pong = (x, y, ballsize, green, red, blue)->
 	## set start position of centre point of ball x is distance along width, y is distance along height
-	x = 4.5
-	y = 4.5
 
 	# set cushion - distance off edge wall at which centre of the ball will bounce
 	# note, make sure start position(above) is within cushion
 	cushion = 2
 
 	# set ball size - diameter
-	ballsize = 4
 
 	# set colours (0 - 255) for green, red, blue.
-	green = 0
-	red = 0
-	blue = 240
+	# 232,33,124
+
 
 	## draw ball, using loops check all pixels, if not within 1.4 pixels of centre point set c to [0, 0, 0]
 	## if within 2 pixels use pythagoris to scale brightness
@@ -326,3 +322,7 @@ Pong = ()->
 		#ballsize = ballsize + 0.04
 
 	, 50
+
+Pong(4.5, 4.5, 8, 33, 232, 124)
+
+setTimeout( Pong, 3000, 2.5, 6.5, 8, 93,225,255)

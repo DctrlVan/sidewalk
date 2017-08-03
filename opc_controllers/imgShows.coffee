@@ -42,7 +42,7 @@ runShow = (showName)->
 		frame = (frame + 1) % showLength
 		stream.writePixels(0, strand.buffer)
 		ledUtil.clear()
-	, 33
+	, 333
 
 #runShow 'orangeDot', 25
 
