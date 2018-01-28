@@ -1,5 +1,16 @@
 # Decentral Sidewalk
 
+## TL;DR for people just trying to get the successfully installed sidewalk implementation at DCTRL Vancouver up and running again after the server goes down
+
+* Open a terminal window
+* cd sidewalk
+* npm run compile
+* Open the browser
+* Navigate to localhost:3456
+* Enjoy the delightfully straightforward UI, select cool patterns etc and even play competitive tetris on it
+
+-----------------------------------------------------------------------------
+
 This is a project to control the Decentral LED sidewalk with a web interface. It should be possible to connect this code to any open-pixel-control hardware by modifying the layout file. 
 
 The projects main file is index.coffee, running this file with coffee will create a web server at localhost:3456            
