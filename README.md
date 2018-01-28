@@ -1,4 +1,4 @@
-# Decentral Sidewalk
+# DCTRL Sidewalk
 
 ## TL;DR for people just trying to get the successfully installed sidewalk implementation at DCTRL Vancouver up and running again after the server goes down
 
@@ -11,7 +11,7 @@
 
 -----------------------------------------------------------------------------
 
-This is a project to control the Decentral LED sidewalk with a web interface. It should be possible to connect this code to any open-pixel-control hardware by modifying the layout file. 
+This is a project to control the DCTRL LED sidewalk with a web interface. It should be possible to connect this code to any open-pixel-control hardware by modifying the layout file. 
 
 The projects main file is index.coffee, running this file with coffee will create a web server at localhost:3456            
 `coffee index.coffee` 
